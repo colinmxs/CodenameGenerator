@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace CodenameGenerator.Tests
 {
@@ -35,30 +34,7 @@ namespace CodenameGenerator.Tests
             }
         }
 
-        [TestMethod]
-        public void Generate_SpecifyWordCount(int count)
-        {
-            _generator.SetWordCount(count);
-            string result = _generator.Generate();
-            char separator = _generator.Separator;
-            var strings = result.Split(separator);
-            Assert.AreEqual(count, strings.Length);
-        }
-
-        [TestMethod]
-        public void GenerateMany_SpecifyWordCount(int count1, int count2)
-        {
-            _generator.SetWordCount(count2);
-            Assert.AreEqual(count2, _generator.WordCount);
-            string[] results = _generator.GenerateMany(count1);
-            char separator = _generator.Separator;
-            foreach (var result in results)
-            {
-                var strings = result.Split(separator);
-                Assert.AreEqual(count2, strings.Length);
-            }            
-        }
-
+        
         [TestMethod]
         public void Generate_SpecifySeparator(char separator)
         {
@@ -81,8 +57,8 @@ namespace CodenameGenerator.Tests
         [TestMethod]
         public void Generate_Defaults(char separator)
         {
-            _generator.Separator = ' ';
-            _generator.WordCount = 2;
+            Assert.IsTrue(_generator.Separator == ' ');
+            Assert.IsTrue(_generator.Parts.Length == 2);            
         }
     }
 }
