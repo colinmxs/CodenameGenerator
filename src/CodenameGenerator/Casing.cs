@@ -4,6 +4,7 @@
     {
         CamelCase,
         PascalCase,
-        UpperCase
+        UpperCase,
+        LowerCase
     }
 }

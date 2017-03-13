@@ -22,6 +22,7 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(_generator.Parts.Length == 2);
             Assert.IsTrue(_generator.Parts[0] == Word.Adjective);
             Assert.IsTrue(_generator.Parts[1] == Word.Noun);
+            Assert.IsTrue(_generator.Casing == Casing.LowerCase);
         }
 
         [TestMethod]
@@ -85,9 +86,9 @@ namespace CodenameGenerator.Tests
             var result = _generator.Generate();
             var strings = result.Split(new string[] { _generator.Separator }, StringSplitOptions.RemoveEmptyEntries);
             Assert.IsTrue(strings.Length == 3);
-            Assert.IsTrue(strings[0] == "Aunt" || strings[0] == "Uncle");
-            Assert.IsTrue(strings[1] == "David" || strings[1] == "Roger");
-            Assert.IsTrue(strings[2] == "Smith" || strings[2] == "Jones");
+            Assert.IsTrue(strings[0] == "aunt" || strings[0] == "uncle");
+            Assert.IsTrue(strings[1] == "david" || strings[1] == "roger");
+            Assert.IsTrue(strings[2] == "smith" || strings[2] == "jones");
         }        
 
         [TestMethod]
@@ -108,25 +109,31 @@ namespace CodenameGenerator.Tests
             var pascalCase = Casing.PascalCase;
             var camelCase = Casing.CamelCase;
             var upperCase = Casing.UpperCase;
+            var lowerCase = Casing.LowerCase;
         }
 
         [TestMethod]
         public void Generate_SetCasing()
         {
             _generator.Separator = "";
-            _generator.SetCasing(Casing.PascalCase);
+            _generator.Casing = (Casing.PascalCase);
             var result = _generator.Generate();
             var regex = "^[A-Z][a-z]+([A-Z][a-z]+)+$";
             Assert.IsTrue(Regex.IsMatch(result, regex));
 
-            _generator.SetCasing(Casing.CamelCase);
+            _generator.Casing = (Casing.CamelCase);
             result = _generator.Generate();
-            regex = "[A-Z]([A-Z0-9]*[a-z][a-z0-9]*[A-Z]|[a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*";
+            regex = "^([a-z][a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*";
             Assert.IsTrue(Regex.IsMatch(result, regex));
 
-            _generator.SetCasing(Casing.UpperCase);
+            _generator.Casing = (Casing.UpperCase);
             result = _generator.Generate();
-            regex = "\b[A-Z][A-Z0-9]+\b";
+            regex = @"[A-Z]";
+            Assert.IsTrue(Regex.IsMatch(result, regex));
+
+            _generator.Casing = Casing.LowerCase;
+            result = _generator.Generate();
+            regex = @"[a-z]";
             Assert.IsTrue(Regex.IsMatch(result, regex));
         }
     }

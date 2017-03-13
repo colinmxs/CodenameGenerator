@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace CodenameGenerator
 {
@@ -10,27 +11,59 @@ namespace CodenameGenerator
             Separator = " ";
             Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
             _random = new Random();
+            Casing = Casing.LowerCase;
         }
         public string Separator { get; set; }
         public WordBank[] Parts { get; private set; }
+        public Casing Casing { get; set; }
+
         public string Generate()
         {
             var name = "";
             for (int i = 0; i < Parts.Length; i++)
             {
-                var part = Parts[i];
-                var words = part.Get();
+                var words = Parts[i].Get();                
                 var index = _random.Next(words.Length);
+                var word = words[index];
 
-                if (string.IsNullOrEmpty(name))
-                    name = words[index];
+                switch (Casing)
+                {
+                    case Casing.LowerCase:
+                        word = word.ToLower();
+                        break;
+                    case Casing.UpperCase:
+                        word = word.ToUpper();
+                        break;
+                    case Casing.PascalCase:
+                        word = FirstCharToUpper(word);
+                        break;
+                    case Casing.CamelCase:
+                        if (string.IsNullOrEmpty(name))
+                        {
+                            word = word.ToLower();
+                        }
+                        else
+                            word = FirstCharToUpper(word);
+                        break;
+                }
+                
+                if (string.IsNullOrEmpty(name))                    
+                    name = word;
                 else
-                    name += words[index];
+                    name += word;
                 name += Separator;
             }
             if (Separator.Length > 0)
                 return name.Remove(name.Length - Separator.Length);
             return name;
+        }
+
+        //http://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-for-maximum-performance
+        private static string FirstCharToUpper(string input)
+        {
+            if (String.IsNullOrEmpty(input))
+                throw new ArgumentException("ARGH!");
+            return input.First().ToString().ToUpper() + String.Join("", input.Skip(1));
         }
 
         public string[] GenerateMany(int count)
@@ -58,11 +91,6 @@ namespace CodenameGenerator
                 return GenerateUnique(reserved);
             }
             return name;
-        }
-
-        public void SetCasing(Casing pascalCase)
-        {
-            throw new NotImplementedException();
-        }
+        }        
     }
 }
