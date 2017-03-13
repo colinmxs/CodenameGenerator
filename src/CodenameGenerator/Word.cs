@@ -2,10 +2,10 @@
 {
     public enum Word
     {
-        Nouns,
-        Adjectives,
-        FirstNames,
-        LastNames,
-        Titles
+        Noun,
+        Adjective,
+        FirstName,
+        LastName,
+        Title
     }
 }
