@@ -1,6 +1,6 @@
 ﻿namespace CodenameGenerator
 {
-    public interface IWordRepository
+    public interface IStringRepository
     {
         string[] Get();
     }    

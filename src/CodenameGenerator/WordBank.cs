@@ -5,15 +5,33 @@
     {
         protected readonly string Name;
         protected readonly Word Value;
-        protected readonly IWordRepository Repo;
+        protected readonly IStringRepository Repo;
 
         public static readonly WordBank Nouns = new WordBank(Word.Noun, "Nouns", new FileRepository("nouns.csv"));
         public static readonly WordBank Adjectives = new WordBank(Word.Adjective, "Adjectives", new FileRepository("adjectives.csv"));
         public static readonly WordBank FirstNames = new WordBank(Word.FirstName, "FirstNames", new FileRepository("firstnames.csv"));
         public static readonly WordBank LastNames = new WordBank(Word.LastName, "LastNames", new FileRepository("lastnames.csv"));
-        public static readonly WordBank Titles = new WordBank(Word.Title, "Titles", new TitleRepository());
+        public static readonly WordBank Titles = new WordBank(Word.Title, "Titles", new WordRepository(
+            "Mister",
+            "Master",
+            "Miss",
+            "Mrs",
+            "Lady",
+            "Sir",
+            "Madam",
+            "Lord",
+            "Dr",
+            "Elder",
+            "Grandpa",
+            "Grandma",
+            "President",
+            "King",
+            "Queen",
+            "Princess",
+            "Aunt",
+            "Uncle"));
 
-        protected WordBank(Word value, string name, IWordRepository repo)
+        public WordBank(Word value, string name, IStringRepository repo)
         {
             Name = name;
             Value = value;

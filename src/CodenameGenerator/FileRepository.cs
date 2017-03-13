@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CodenameGenerator
 {
-    public class FileRepository : IWordRepository
+    public class FileRepository : IStringRepository
     {
         private readonly string _fileName;
         private string[] _words;

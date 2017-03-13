@@ -49,5 +49,15 @@ namespace CodenameGenerator
         {
             Parts = wordBanks;
         }
+
+        public string GenerateUnique(string[] reserved)
+        {
+            var name = Generate();
+            if (Array.Exists(reserved, element => element == name))
+            {
+                return GenerateUnique(reserved);
+            }
+            return name;
+        }
     }
 }

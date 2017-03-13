@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace CodenameGenerator.Tests
 {
@@ -11,6 +12,15 @@ namespace CodenameGenerator.Tests
         public void Init()
         {
             _generator = new Generator();
+        }
+
+        [TestMethod]
+        public void Defaults()
+        {
+            Assert.IsTrue(_generator.Separator == " ");
+            Assert.IsTrue(_generator.Parts.Length == 2);
+            Assert.IsTrue(_generator.Parts[0] == Word.Adjective);
+            Assert.IsTrue(_generator.Parts[1] == Word.Noun);
         }
 
         [TestMethod]
@@ -42,7 +52,7 @@ namespace CodenameGenerator.Tests
         [DataRow("-")]
         [DataRow("_")]
         [DataRow(".")]
-        public void Generate_SpecifySeparator(string separator)
+        public void Generate_SetSeparator(string separator)
         {
             _generator.Separator = separator;
             string result = _generator.Generate();
@@ -53,7 +63,7 @@ namespace CodenameGenerator.Tests
         [DataRow(2, "-.-")]
         [DataRow(4, ".")]
         [DataRow(6, "-")]
-        public void GenerateMany_SpecifySeparator(int count, string separator)
+        public void GenerateMany_SetSeparator(int count, string separator)
         {
             _generator.Separator = separator;
             var results = _generator.GenerateMany(count);
@@ -61,24 +71,34 @@ namespace CodenameGenerator.Tests
             {
                 Assert.IsTrue(result.Contains(separator.ToString()));
             }
-        }
+        }        
 
         [TestMethod]
-        public void Defaults()
+        public void Generate_SetParts()
         {
-            Assert.IsTrue(_generator.Separator == " ");
-            Assert.IsTrue(_generator.Parts.Length == 2);
-            Assert.IsTrue(_generator.Parts[0] == Word.Adjective);
-            Assert.IsTrue(_generator.Parts[1] == Word.Noun);
-        }
-
-        [TestMethod]
-        public void Generate_SpecifyParts()
-        {
-            _generator.SetParts(WordBank.Titles, WordBank.FirstNames, WordBank.LastNames);
+            _generator.SetParts(TestWordBank.Titles, TestWordBank.FirstNames, TestWordBank.LastNames);
             Assert.IsTrue(_generator.Parts[0] == Word.Title);
             Assert.IsTrue(_generator.Parts[1] == Word.FirstName);
             Assert.IsTrue(_generator.Parts[2] == Word.LastName);
+
+            var result = _generator.Generate();
+            var strings = result.Split(new string[] { _generator.Separator }, StringSplitOptions.RemoveEmptyEntries);
+            Assert.IsTrue(strings.Length == 3);
+            Assert.IsTrue(strings[0] == "Aunt" || strings[0] == "Uncle");
+            Assert.IsTrue(strings[1] == "David" || strings[1] == "Roger");
+            Assert.IsTrue(strings[2] == "Smith" || strings[2] == "Jones");
+        }        
+
+        [TestMethod]
+        [DataRow("cat dog")]
+        [DataRow("dog cat")]
+        [DataRow("cat cat")]
+        [DataRow("dog dog")]        
+        public void GenerateUnique(string reserved)
+        {
+            _generator.SetParts(TestWordBank.Nouns);
+            var result = _generator.GenerateUnique(new string[] { reserved });
+            Assert.AreNotEqual(reserved, result);
         }
     }
 }
