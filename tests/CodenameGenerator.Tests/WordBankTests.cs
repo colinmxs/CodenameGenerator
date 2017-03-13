@@ -62,7 +62,7 @@ namespace CodenameGenerator.Tests
             string[] titles = titlesBank.Get();
             Assert.IsNotNull(titles);
             //lol
-            Assert.IsTrue(titles.Contains("dirty"));
+            Assert.IsTrue(titles.Contains("Mister"));
             Assert.IsTrue(!titles.Contains("hospital"));
         }
     }
