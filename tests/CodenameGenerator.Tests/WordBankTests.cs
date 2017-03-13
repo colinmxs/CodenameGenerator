@@ -65,5 +65,16 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(titles.Contains("Mister"));
             Assert.IsTrue(!titles.Contains("hospital"));
         }
+        [TestMethod]
+        public void ImplicitOperatorTests()
+        {
+            var word = Word.Noun;
+            var wordBank = WordBank.Nouns;
+            Assert.IsTrue(word == wordBank);
+
+            var word1 = "Adjectives";
+            var wordBank1 = WordBank.Adjectives;
+            Assert.IsTrue(word1 == wordBank1);
+        }
     }
 }
