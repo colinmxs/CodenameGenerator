@@ -4,26 +4,55 @@ namespace CodenameGenerator
 {
     public class Generator
     {
-        public char Separator { get; private set; }
+        private readonly Random _random;
+        public Generator()
+        {
+            Separator = " ";
+            Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
+            _random = new Random();
+        }
+        public string Separator { get; private set; }
         public WordBank[] Parts { get; private set; }
         public string Generate()
         {
-            throw new NotImplementedException();
+            var name = "";
+            for (int i = 0; i < Parts.Length; i++)
+            {
+                var part = Parts[i];
+                var words = part.Get();
+                var index = _random.Next(words.Length);
+
+                if (string.IsNullOrEmpty(name))
+                    name = words[index];
+                else
+                    name += words[index];
+                name += Separator;
+            }
+            if (Separator.Length > 0)
+                return name.Remove(name.Length - Separator.Length);
+            return name;
         }
 
         public string[] GenerateMany(int count)
         {
-            throw new NotImplementedException();
+            var names = new string[count];
+            var i = 0;
+            while(i < count)
+            {
+                names[i] = Generate();
+                i++;
+            }
+            return names;
         }        
 
-        public void SetSeparator(char separator)
+        public void SetSeparator(string separator)
         {
-            throw new NotImplementedException();
+            Separator = separator;
         }
 
         public void SetParts(params WordBank[] wordBanks)
         {
-            throw new NotImplementedException();
+            Parts = wordBanks;
         }
     }
 }

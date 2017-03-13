@@ -22,6 +22,10 @@ namespace CodenameGenerator.Tests
         }
 
         [TestMethod]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(4)]
+        [DataRow(8)]
         public void GenerateMany(int count)
         {
 
@@ -35,7 +39,10 @@ namespace CodenameGenerator.Tests
         }
         
         [TestMethod]
-        public void Generate_SpecifySeparator(char separator)
+        [DataRow("-")]
+        [DataRow("_")]
+        [DataRow(".")]
+        public void Generate_SpecifySeparator(string separator)
         {
             _generator.SetSeparator(separator);
             string result = _generator.Generate();
@@ -43,7 +50,10 @@ namespace CodenameGenerator.Tests
         }
 
         [TestMethod]
-        public void GenerateMany_SpecifySeparator(int count, char separator)
+        [DataRow(2, "-.-")]
+        [DataRow(4, ".")]
+        [DataRow(6, "-")]
+        public void GenerateMany_SpecifySeparator(int count, string separator)
         {
             _generator.SetSeparator(separator);
             var results = _generator.GenerateMany(count);
@@ -54,9 +64,9 @@ namespace CodenameGenerator.Tests
         }
 
         [TestMethod]
-        public void Defaults(char separator)
+        public void Defaults()
         {
-            Assert.IsTrue(_generator.Separator == ' ');
+            Assert.IsTrue(_generator.Separator == " ");
             Assert.IsTrue(_generator.Parts.Length == 2);
             Assert.IsTrue(_generator.Parts[0] == Word.Adjective);
             Assert.IsTrue(_generator.Parts[1] == Word.Noun);
@@ -69,7 +79,6 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(_generator.Parts[0] == Word.Title);
             Assert.IsTrue(_generator.Parts[1] == Word.FirstName);
             Assert.IsTrue(_generator.Parts[2] == Word.LastName);
-            _generator.Generate();
         }
     }
 }
