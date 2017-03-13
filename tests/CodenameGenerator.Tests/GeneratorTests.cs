@@ -44,7 +44,7 @@ namespace CodenameGenerator.Tests
         [DataRow(".")]
         public void Generate_SpecifySeparator(string separator)
         {
-            _generator.SetSeparator(separator);
+            _generator.Separator = separator;
             string result = _generator.Generate();
             Assert.IsTrue(result.Contains(separator.ToString()));
         }
@@ -55,7 +55,7 @@ namespace CodenameGenerator.Tests
         [DataRow(6, "-")]
         public void GenerateMany_SpecifySeparator(int count, string separator)
         {
-            _generator.SetSeparator(separator);
+            _generator.Separator = separator;
             var results = _generator.GenerateMany(count);
             foreach (var result in results)
             {

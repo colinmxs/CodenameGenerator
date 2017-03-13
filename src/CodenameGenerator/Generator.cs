@@ -11,7 +11,7 @@ namespace CodenameGenerator
             Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
             _random = new Random();
         }
-        public string Separator { get; private set; }
+        public string Separator { get; set; }
         public WordBank[] Parts { get; private set; }
         public string Generate()
         {
@@ -43,12 +43,7 @@ namespace CodenameGenerator
                 i++;
             }
             return names;
-        }        
-
-        public void SetSeparator(string separator)
-        {
-            Separator = separator;
-        }
+        }                
 
         public void SetParts(params WordBank[] wordBanks)
         {
