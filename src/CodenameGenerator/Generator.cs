@@ -59,5 +59,10 @@ namespace CodenameGenerator
             }
             return name;
         }
+
+        public void SetCasing(Casing pascalCase)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

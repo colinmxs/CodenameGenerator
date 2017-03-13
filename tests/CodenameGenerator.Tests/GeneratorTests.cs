@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Text.RegularExpressions;
 
 namespace CodenameGenerator.Tests
 {
@@ -99,6 +100,34 @@ namespace CodenameGenerator.Tests
             _generator.SetParts(TestWordBank.Nouns);
             var result = _generator.GenerateUnique(new string[] { reserved });
             Assert.AreNotEqual(reserved, result);
+        }
+
+        [TestMethod]
+        public void CasingEnum()
+        {
+            var pascalCase = Casing.PascalCase;
+            var camelCase = Casing.CamelCase;
+            var upperCase = Casing.UpperCase;
+        }
+
+        [TestMethod]
+        public void Generate_SetCasing()
+        {
+            _generator.Separator = "";
+            _generator.SetCasing(Casing.PascalCase);
+            var result = _generator.Generate();
+            var regex = "^[A-Z][a-z]+([A-Z][a-z]+)+$";
+            Assert.IsTrue(Regex.IsMatch(result, regex));
+
+            _generator.SetCasing(Casing.CamelCase);
+            result = _generator.Generate();
+            regex = "[A-Z]([A-Z0-9]*[a-z][a-z0-9]*[A-Z]|[a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*";
+            Assert.IsTrue(Regex.IsMatch(result, regex));
+
+            _generator.SetCasing(Casing.UpperCase);
+            result = _generator.Generate();
+            regex = "\b[A-Z][A-Z0-9]+\b";
+            Assert.IsTrue(Regex.IsMatch(result, regex));
         }
     }
 }
