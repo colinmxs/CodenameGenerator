@@ -20,5 +20,10 @@ namespace CodenameGenerator
         {
             throw new NotImplementedException();
         }
+
+        public void SetParts(params WordBank[] wordBanks)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

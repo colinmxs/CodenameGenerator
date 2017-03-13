@@ -33,7 +33,6 @@ namespace CodenameGenerator.Tests
                 Assert.AreNotEqual("", result);
             }
         }
-
         
         [TestMethod]
         public void Generate_SpecifySeparator(char separator)
@@ -55,10 +54,22 @@ namespace CodenameGenerator.Tests
         }
 
         [TestMethod]
-        public void Generate_Defaults(char separator)
+        public void Defaults(char separator)
         {
             Assert.IsTrue(_generator.Separator == ' ');
-            Assert.IsTrue(_generator.Parts.Length == 2);            
+            Assert.IsTrue(_generator.Parts.Length == 2);
+            Assert.IsTrue(_generator.Parts[0] == Word.Adjective);
+            Assert.IsTrue(_generator.Parts[1] == Word.Noun);
+        }
+
+        [TestMethod]
+        public void Generate_SpecifyParts()
+        {
+            _generator.SetParts(WordBank.Titles, WordBank.FirstNames, WordBank.LastNames);
+            Assert.IsTrue(_generator.Parts[0] == Word.Title);
+            Assert.IsTrue(_generator.Parts[1] == Word.FirstName);
+            Assert.IsTrue(_generator.Parts[2] == Word.LastName);
+            _generator.Generate();
         }
     }
 }
