@@ -7,12 +7,22 @@ Generate code name:
 var generator = new Generator();
 var name = generator.Generate();
 
-Console.WriteLine(name); //Outputs a random code name with default configuration, example: "rambunctious arthropod"
+Console.WriteLine(name); //ex: "rambunctious arthropod"
 ```
 Generate many code names:
 ```C#
 var generator = new Generator();
 var names = generator.GenerateMany(5);
+
+foreach(var name in names)
+{
+     Console.WriteLine(name);	
+}
+//"ex: rambunctious arthropod"
+//"ex: green man"
+//"ex: laborious documentation"
+//"ex: angelic lobotomy"
+//"ex: abyssal hotdog"
 ```
 Specify the separator:
 ```C#
@@ -20,22 +30,22 @@ var generator = new Generator();
 generator.Separator = "-"
 var name = generator.Generate();
 
-Console.WriteLine(name); // "rambunctious-arthropod"
+Console.WriteLine(name); // "ex: rambunctious-arthropod"
 ```
-Specify the types of words that should be used to construct the code name:
+Specify the types of words used to construct the code name:
 ```C#
 var generator = new Generator();
-generator.SetParts(TestWordBank.Adjectives, TestWordBank.FirstNames, TestWordBank.LastNames);
+generator.SetParts(WordBank.Adjectives, WordBank.FirstNames, WordBank.LastNames);
 var name = generator.Generate();
 
-Console.WriteLine(name); //"stupid david jones"
+Console.WriteLine(name); //"ex: stupid david jones"
 ```
 ```C#
 var generator = new Generator();
 generator.SetParts(TestWordBank.Nouns);
 var name = generator.Generate();
 
-Console.WriteLine(name); //"hospital"
+Console.WriteLine(name); //"ex: hospital"
 ```
 Specify the casing:
 ```C#
@@ -43,5 +53,40 @@ var generator = new Generator();
 generator.Casing = Casing.UpperCase;
 var name = generator.Generate();
 
-Console.WriteLine(name); // "RAMBUNCTIOUS ARTHROPOD"
+Console.WriteLine(name); // "ex: RAMBUNCTIOUS ARTHROPOD"
 ```
+```C#
+var generator = new Generator();
+generator.Casing = Casing.CamelCase;
+generator.Separator = ""; //no separator
+var name = generator.Generate();
+
+Console.WriteLine(name); // "ex: rambunctiousArthropod"
+```
+Contrived example usage:
+```C#
+var generator = new Generator();
+generator.Casing = Casing.LowerCase;
+generator.Separator = ".";
+generator.SetParts(WordBank.Titles, WordBank.FirstNames, WordBank.Adjectives, WordBank.Nouns, WordBank.LastNames);
+var name = generator.Generate();
+
+Console.WriteLine(name); // "ex: president.donald.orange.douche.trump"
+```
+
+##Default Configuration
+By default, the name generator will generate a code name consisting of and adjective followed by a noun with a space in between the two. The result will be lowercase.
+
+##Available WordBanks
+*Adjectives
+*Nouns
+*FirstNames
+*LastNames
+*Titles
+
+##Available Casings
+*PascalCase
+*CamelCase
+*LowerCase
+*UpperCase
+
