@@ -1,7 +1,7 @@
 # CodenameGenerator
 Generates random codenames/usernames/whatever you want!
 
-##Examples
+## Examples
 Generate code name:
 ```C#
 var generator = new Generator();
@@ -74,19 +74,19 @@ var name = generator.Generate();
 Console.WriteLine(name); // "ex: president.donald.orange.douche.trump"
 ```
 
-##Default Configuration
+## Default Configuration
 By default, the name generator will generate a code name consisting of and adjective followed by a noun with a space in between the two. The result will be lowercase.
 
-##Available WordBanks
-*Adjectives
-*Nouns
-*FirstNames
-*LastNames
-*Titles
+## Available WordBanks
++Adjectives
++Nouns
++FirstNames
++LastNames
++Titles
 
-##Available Casings
-*PascalCase
-*CamelCase
-*LowerCase
-*UpperCase
+## Available Casings
++PascalCase
++CamelCase
++LowerCase
++UpperCase
 
