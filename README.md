@@ -85,8 +85,8 @@ By default, the name generator will generate a code name consisting of and adjec
 + Titles
 
 ## Available Casings
-+ PascalCase
-+ CamelCase
-+ LowerCase
-+ UpperCase
++ PascalCase (e.g. HelloWorld)
++ CamelCase (e.g. helloWorld)
++ LowerCase (e.g. helloworld)
++ UpperCase (e.g. HELLOWORLD)
 
