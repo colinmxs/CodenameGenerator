@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Colin Smith</Authors>
+    <Company />
+    <Copyright>2017 Colin Smith</Copyright>
+    <PackageTags>codename name generator code username random word</PackageTags>
+    <PackageProjectUrl>https://github.com/colinmxs/CodenameGenerator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
+    <Description>Codename generator for ASP.NET Core.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
