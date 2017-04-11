@@ -42,7 +42,7 @@ Console.WriteLine(name); //"ex: stupid david jones"
 ```
 ```C#
 var generator = new Generator();
-generator.SetParts(TestWordBank.Nouns);
+generator.SetParts(WordBank.Nouns);
 var name = generator.Generate();
 
 Console.WriteLine(name); //"ex: hospital"
