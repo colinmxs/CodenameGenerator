@@ -1,6 +1,8 @@
 # CodenameGenerator
 Generates random codenames/usernames/whatever you want!
 
+[NuGet link](https://www.nuget.org/packages/CodenameGenerator/1.0.0)
+
 ## Examples
 Generate code name:
 ```C#
