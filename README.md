@@ -1,6 +1,8 @@
 # CodenameGenerator
 Generates random codenames/usernames/whatever you want!
 
+[NuGet link](https://www.nuget.org/packages/CodenameGenerator/1.0.0)
+
 ## Examples
 Generate code name:
 ```C#
@@ -42,7 +44,7 @@ Console.WriteLine(name); //"ex: stupid david jones"
 ```
 ```C#
 var generator = new Generator();
-generator.SetParts(TestWordBank.Nouns);
+generator.SetParts(WordBank.Nouns);
 var name = generator.Generate();
 
 Console.WriteLine(name); //"ex: hospital"
