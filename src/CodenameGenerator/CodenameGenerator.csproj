@@ -6,10 +6,12 @@
     <Authors>Colin Smith</Authors>
     <Company />
     <Copyright>2017 Colin Smith</Copyright>
-    <PackageTags>codename name generator code username random word</PackageTags>
+    <PackageTags>codename name generator code username random word codenamegenerator words nouns adjectives firstnames lastnames</PackageTags>
     <PackageProjectUrl>https://github.com/colinmxs/CodenameGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
     <Description>Codename generator for ASP.NET Core.</Description>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>Removed blank line from word source files.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

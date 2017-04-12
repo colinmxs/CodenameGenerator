@@ -10,6 +10,6 @@
     <description>$description$</description>
     <releaseNotes>Initial Release!</releaseNotes>
     <copyright>Copyright 2017</copyright>
-    <tags>name generator codename words nouns adjectives username</tags>
+    <tags>codename name generator code username random word codenamegenerator words nouns adjectives firstnames lastnames</tags>
   </metadata>
 </package>
