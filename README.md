@@ -82,9 +82,14 @@ By default, the name generator will generate a code name consisting of and adjec
 ## Available WordBanks
 + Adjectives
 + Nouns
-+ FirstNames
++ FirstNames 
+ + Female First Names
+ + Male First Names
 + LastNames
 + Titles
++ State Names
++ Months
++ Days
 
 ## Available Casings
 + PascalCase (e.g. HelloWorld)
