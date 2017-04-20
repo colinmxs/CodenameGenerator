@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace CodenameGenerator.Tests
@@ -13,6 +14,26 @@ namespace CodenameGenerator.Tests
         public void Init()
         {
             _generator = new Generator();
+        }
+
+        [TestMethod]
+        public void CTorTests()
+        {
+            var @char = '-';
+            var separator = @char.ToString();
+            var casing = Casing.PascalCase;
+            var generator = new Generator(separator, casing);
+            Assert.IsTrue(generator.Separator == "-");
+            Assert.IsTrue(generator.Casing == casing);
+
+            generator = new Generator(separator, casing, WordBank.FirstNames, WordBank.LastNames);
+            Assert.IsTrue(generator.Separator == "-");
+            Assert.IsTrue(generator.Casing == casing);
+            var name = generator.Generate();
+            var parts = name.Split(@char);
+            Assert.IsTrue(parts.Length == 2);            
+            Assert.IsTrue(WordBank.FirstNames.Get().Contains(parts[0]));
+            Assert.IsTrue(WordBank.LastNames.Get().Contains(parts[1]));
         }
 
         [TestMethod]

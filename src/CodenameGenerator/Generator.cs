@@ -5,18 +5,28 @@ namespace CodenameGenerator
 {
     public class Generator
     {
-        private readonly Random _random;
+        private readonly Random _random = new Random();
+
+        public Generator(string separator, Casing casing)
+        {
+            Separator = separator;
+            Casing = casing;
+        }
+
+        public Generator(string separator, Casing casing, params WordBank[] banks)
+        {
+            Separator = separator;
+            Casing = casing;
+            Parts = banks;
+        }
+
         public Generator()
         {
-            Separator = " ";
-            Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
-            _random = new Random();
-            Casing = Casing.LowerCase;
         }
-        public string Separator { get; set; }
-        public WordBank[] Parts { get; private set; }
-        public Casing Casing { get; set; }
 
+        public string Separator = " ";
+        public WordBank[] Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
+        public Casing Casing = Casing.LowerCase;
         public string Generate()
         {
             var name = "";
