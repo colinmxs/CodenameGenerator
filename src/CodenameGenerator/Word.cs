@@ -6,6 +6,11 @@
         Adjective,
         FirstName,
         LastName,
-        Title
+        Title,
+        Day,
+        FemaleFirstName,
+        MaleFirstName,
+        Month,
+        StateName
     }
 }
