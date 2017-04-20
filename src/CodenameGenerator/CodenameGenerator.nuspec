@@ -6,10 +6,6 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <projectUrl>https://github.com/colinmxs/CodenameGenerator</projectUrl>
     <description>$description$</description>
-    <releaseNotes>Initial Release!</releaseNotes>
-    <copyright>Copyright 2017</copyright>
-    <tags>codename name generator code username random word codenamegenerator words nouns adjectives firstnames lastnames</tags>
   </metadata>
 </package>

@@ -10,8 +10,9 @@
     <PackageProjectUrl>https://github.com/colinmxs/CodenameGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
     <Description>Codename generator for ASP.NET Core.</Description>
-    <Version>1.0.1</Version>
-    <PackageReleaseNotes>Removed blank line from word source files.</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Added wordbank and constructor options</PackageReleaseNotes>
+    <FileVersion>1.0.2.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
