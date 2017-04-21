@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.0;netstandard1.3</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Colin Smith</Authors>
     <Company />
@@ -31,6 +31,6 @@
     <EmbeddedResource Include="Files\firstnames.csv" />
     <EmbeddedResource Include="Files\lastnames.csv" />
     <EmbeddedResource Include="Files\nouns.csv" />
-  </ItemGroup>
+  </ItemGroup>  
 
 </Project>
