@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace CodenameGenerator
 {
@@ -72,8 +71,11 @@ namespace CodenameGenerator
         private static string FirstCharToUpper(string input)
         {
             if (String.IsNullOrEmpty(input))
-                throw new ArgumentException("ARGH!");
-            return input.First().ToString().ToUpper() + String.Join("", input.Skip(1));
+                throw new ArgumentException("There is no first letter");
+
+            char[] first = input.ToCharArray();
+            first[0] = char.ToUpper(first[0]);
+            return new string(first);
         }
 
         public string[] GenerateMany(int count)
