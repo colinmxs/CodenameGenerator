@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO;
+#if FEATURE_TYPE_INFO
+using System.Reflection;
+#endif
 
 namespace CodenameGenerator
 {
