@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 namespace CodenameGenerator
 {
@@ -22,7 +21,12 @@ namespace CodenameGenerator
             {
                 var @namespace = FileFolderNamespace + _fileName;
                 var stringArray = new string[] { };
-                using (var stream = typeof(WordBank).GetTypeInfo().Assembly.GetManifestResourceStream(@namespace))
+
+                using (var stream = typeof(WordBank)
+#if FEATURE_TYPE_INFO
+                    .GetTypeInfo()
+#endif
+                    .Assembly.GetManifestResourceStream(@namespace))
                 using (var reader = new StreamReader(stream))
                 {
                     //TODO: optimize

@@ -19,6 +19,10 @@
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard1.0|AnyCPU'">
+    <DocumentationFile />
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Files\adjectives.csv" />
     <None Remove="Files\firstnames.csv" />
@@ -31,6 +35,10 @@
     <EmbeddedResource Include="Files\firstnames.csv" />
     <EmbeddedResource Include="Files\lastnames.csv" />
     <EmbeddedResource Include="Files\nouns.csv" />
-  </ItemGroup>  
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.0' OR '$(TargetFramework)'=='netstandard1.3'">
+    <DefineConstants>FEATURE_TYPE_INFO</DefineConstants>
+  </PropertyGroup>  
 
 </Project>
