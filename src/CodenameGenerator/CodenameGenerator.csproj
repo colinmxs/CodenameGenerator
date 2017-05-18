@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard1.3;net45;net46</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.0;netstandard1.3</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Colin Smith</Authors>
     <Company />
@@ -9,10 +9,10 @@
     <PackageTags>codename name generator code username random word codenamegenerator words nouns adjectives firstnames lastnames</PackageTags>
     <PackageProjectUrl>https://github.com/colinmxs/CodenameGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
-    <Description>Codename generator for ASP.NET Core.</Description>
-    <Version>1.1.0</Version>
-    <PackageReleaseNotes>Added wordbank and constructor options</PackageReleaseNotes>
-    <FileVersion>1.0.2.0</FileVersion>
+    <Description>Codename generator for .NET</Description>
+    <Version>1.2.0</Version>
+    <PackageReleaseNotes>Added support for net452</PackageReleaseNotes>
+    <FileVersion>1.0.3.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
