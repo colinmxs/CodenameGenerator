@@ -27,8 +27,9 @@ namespace CodenameGenerator.Tests
             string[] nouns = nounBank.Get();
             Assert.IsNotNull(nouns);
             //lol
-            Assert.IsTrue(!nouns.Contains("dilapidated"));
-            Assert.IsTrue(nouns.Contains("dog"));
+            //Assert.IsTrue(!nouns.Contains("dilapidated"));
+            //Assert.IsTrue(nouns.Contains("dog"));
+            throw new System.Exception(nouns[0]);
         }
         [TestMethod]        
         public void Adjectives()

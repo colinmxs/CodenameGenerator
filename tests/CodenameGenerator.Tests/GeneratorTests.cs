@@ -139,12 +139,12 @@ namespace CodenameGenerator.Tests
             _generator.Separator = "";
             _generator.Casing = (Casing.PascalCase);
             var result = _generator.Generate();
-            var regex = "^[A-Z][a-z]+([A-Z][a-z]+)+$";
+            var regex = @"^[A-Z][a-z]+([A-Z][a-z]+)+$";
             Assert.IsTrue(Regex.IsMatch(result, regex));
 
             _generator.Casing = (Casing.CamelCase);
             result = _generator.Generate();
-            regex = "^([a-z][a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*";
+            regex = @"^([a-z][a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*";
             Assert.IsTrue(Regex.IsMatch(result, regex));
 
             _generator.Casing = (Casing.UpperCase);
