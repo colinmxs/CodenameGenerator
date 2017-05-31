@@ -1,12 +1,27 @@
 version: 1.0.{build}
 image: Visual Studio 2017
+version: '1.2.{build}'
+branches:
+  only:
+  - master
 init:
   - git config --global core.autocrlf true
 build_script:
 - ps: >-
     dotnet restore
 
+    $xmlPath = "$env:appveyor_build_folder\src\CodenameGenerator\CodenameGenerator.csproj"
+
+    $xml = [xml](get-content $xmlPath)
+
+    $propertyGroup = $xml.Project.PropertyGroup
+
+    $propertyGroup.Version = $env:appveyor_build_version
+
+    $xml.Save($xmlPath)
+
     dotnet build -c Release
+
 test_script:
 - ps: >-
     cd tests/codenamegenerator.tests
