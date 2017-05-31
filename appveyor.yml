@@ -1,0 +1,14 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+init:
+  - git config --global core.autocrlf true
+build_script:
+- ps: >-
+    dotnet restore
+
+    dotnet build -c Release
+test_script:
+- ps: >-
+    cd tests/codenamegenerator.tests
+
+    dotnet test -c Release --no-build
