@@ -13,7 +13,7 @@ build_script:
 
     $xml = [xml](get-content $xmlPath)
 
-    $propertyGroup = $xml.Project.PropertyGroup
+    $propertyGroup = $xml.Project.PropertyGroup[0]
 
     $propertyGroup.Version = $env:appveyor_build_version
 
