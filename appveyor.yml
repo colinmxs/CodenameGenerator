@@ -25,3 +25,7 @@ test_script:
     cd tests/codenamegenerator.tests
 
     dotnet test -c Release --no-build
+on_success:
+  - ps: >-
+    nuget.exe setApiKey $api-key -source https://www.nuget.org
+    nuget push "$env:appveyor_build_folder\src\CodenameGenerator\bin\Release\CodenameGenerator.1.2.{Version}"
