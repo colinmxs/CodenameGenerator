@@ -14,6 +14,8 @@ namespace CodenameGenerator.Tests
             var firstNames = WordBank.FirstNames;
             var lastNames = WordBank.LastNames;
             var titles = WordBank.Titles;
+            var femaleTitles = WordBank.FemaleTitles;
+            var maleTitles = WordBank.MaleTitles;
             var stateNames = WordBank.StateNames;
             var days = WordBank.Days;
             var femaleFirstNames = WordBank.FemaleFirstNames;
@@ -69,6 +71,26 @@ namespace CodenameGenerator.Tests
             //lol
             Assert.IsTrue(titles.Contains("Mister"));
             Assert.IsTrue(!titles.Contains("hospital"));
+        }
+        [TestMethod]
+        public void MaleTitles()
+        {
+            var titlesBank = WordBank.MaleTitles;
+            string[] titles = titlesBank.Get();
+            Assert.IsNotNull(titles);
+            //lol
+            Assert.IsTrue(titles.Contains("Mister"));
+            Assert.IsTrue(!titles.Contains("Mrs"));
+        }
+        [TestMethod]
+        public void FemaleTitles()
+        {
+            var titlesBank = WordBank.FemaleTitles;
+            string[] titles = titlesBank.Get();
+            Assert.IsNotNull(titles);
+            //lol
+            Assert.IsTrue(titles.Contains("Mrs"));
+            Assert.IsTrue(!titles.Contains("Mister"));
         }
         [TestMethod]
         public void Days()

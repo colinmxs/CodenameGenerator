@@ -14,6 +14,8 @@ namespace CodenameGenerator
         public static readonly WordBank FirstNames = new WordBank(Word.FirstName, "FirstNames", new FileRepository("firstnames.csv"));
         public static readonly WordBank LastNames = new WordBank(Word.LastName, "LastNames", new FileRepository("lastnames.csv"));
         public static readonly WordBank Titles = new WordBank(Word.Title, "Titles", new TitleRepository());
+        public static readonly WordBank MaleTitles = new WordBank(Word.MaleTitle, "MaleTitles", new MaleTitleRepository());
+        public static readonly WordBank FemaleTitles = new WordBank(Word.FemaleTitle, "FemaleTitles", new FemaleTitleRepository());
         public static readonly WordBank Days = new WordBank(Word.Day, "Day", new DaysRepository());
         public static readonly WordBank FemaleFirstNames = new WordBank(Word.FemaleFirstName, "FemaleFirstName", new FemaleFirstNameRepository());
         public static readonly WordBank MaleFirstNames = new WordBank(Word.MaleFirstName, "MaleFirstName", new MaleFirstNameRepository());

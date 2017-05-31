@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
     <Description>Codename generator for .NET</Description>
     <Version>1.2.0</Version>
-    <PackageReleaseNotes>Added support for net452</PackageReleaseNotes>
+    <PackageReleaseNotes>Added Male/Female Title wordbanks</PackageReleaseNotes>
     <FileVersion>1.0.3.0</FileVersion>
   </PropertyGroup>
 

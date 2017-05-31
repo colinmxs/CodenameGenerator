@@ -11,6 +11,8 @@
         FemaleFirstName,
         MaleFirstName,
         Month,
-        StateName
+        StateName,
+        MaleTitle,
+        FemaleTitle
     }
 }
