@@ -20,7 +20,6 @@ build_script:
     $xml.Save($xmlPath)
 
     dotnet build -c Release
-
 test_script:
 - ps: >-
     cd tests/codenamegenerator.tests
