@@ -32,4 +32,4 @@ on_success:
 - ps: >-
     nuget.exe setApiKey $env:api_key -source https://www.nuget.org
 
-    nuget push "$env:appveyor_build_folder\src\CodenameGenerator\bin\Release\CodenameGenerator.1.2.{Version}"
+    nuget push "$env:appveyor_build_folder\src\CodenameGenerator\bin\Release\CodenameGenerator.1.2.{Version}" -source https://www.nuget.org
