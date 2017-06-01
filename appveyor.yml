@@ -1,5 +1,8 @@
 version: 1.2.{build}
 image: Visual Studio 2017
+environment:
+  api_key:
+    secure: yqosJiMv8Zz/0L2XDTmQhgt1JyyfkXHwILEbH88OXXLgxvccnXs2Lfnlvz2b8jXn
 branches:
   only:
   - master
@@ -27,6 +30,6 @@ test_script:
     dotnet test -c Release --no-build
 on_success:
 - ps: >-
-    nuget.exe setApiKey $env:api-key -source https://www.nuget.org
+    nuget.exe setApiKey $env:api_key -source https://www.nuget.org
 
     nuget push "$env:appveyor_build_folder\src\CodenameGenerator\bin\Release\CodenameGenerator.1.2.{Version}"
