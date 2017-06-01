@@ -82,10 +82,10 @@ By default, the name generator will generate a code name consisting of an adject
 ## Available WordBanks
 + Adjectives
 + Nouns
-+ FirstNames 
++ First Names 
  + Female First Names
  + Male First Names
-+ LastNames
++ Last Names
 + Titles
  + Male Titles
  + Female Titles
