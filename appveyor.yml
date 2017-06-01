@@ -6,6 +6,8 @@ environment:
 branches:
   only:
   - master
+skip_commits:
+  message: /\[chore\]/
 init:
   - git config --global core.autocrlf true
 build_script:

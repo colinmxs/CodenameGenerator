@@ -77,7 +77,7 @@ Console.WriteLine(name); // "ex: president.donald.orange.douche.trump"
 ```
 
 ## Default Configuration
-By default, the name generator will generate a code name consisting of and adjective followed by a noun with a space in between the two. The result will be lowercase.
+By default, the name generator will generate a code name consisting of an adjective followed by a noun with a space in between the two. The result will be lowercase.
 
 ## Available WordBanks
 + Adjectives
@@ -87,6 +87,8 @@ By default, the name generator will generate a code name consisting of and adjec
  + Male First Names
 + LastNames
 + Titles
+ + Male Titles
+ + Female Titles
 + State Names
 + Months
 + Days
