@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.0;netstandard1.3</TargetFrameworks>
+    <!--<TargetFramework>netstandard1.0</TargetFramework>-->
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Colin Smith</Authors>
     <Company />
@@ -11,8 +12,8 @@
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
     <Description>Codename generator for .NET</Description>
     <Version>1.2.0</Version>
-    <PackageReleaseNotes>Added Male/Female Title wordbanks</PackageReleaseNotes>
-    <FileVersion>1.0.3.0</FileVersion>
+    <PackageReleaseNotes>Added Job Title wordbanks</PackageReleaseNotes>
+    <FileVersion>1.0.4.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

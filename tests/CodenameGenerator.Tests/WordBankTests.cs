@@ -21,6 +21,7 @@ namespace CodenameGenerator.Tests
             var femaleFirstNames = WordBank.FemaleFirstNames;
             var maleFirstNames = WordBank.MaleFirstNames;
             var months = WordBank.Months;
+            var jobTitles = WordBank.JobTitles;
         }
         [TestMethod]
         public void Nouns()
@@ -136,6 +137,15 @@ namespace CodenameGenerator.Tests
             Assert.IsNotNull(names);
             Assert.IsTrue(names.Contains("Robert"));
             Assert.IsTrue(!names.Contains("Sarah"));
+        }
+        [TestMethod]
+        public void JobTitles()
+        {
+            var jobTitles = WordBank.JobTitles;
+            string[] jobs = jobTitles.Get();
+            Assert.IsNotNull(jobs);
+            Assert.IsTrue(jobs.Contains("Accountant"));
+            Assert.IsTrue(!jobs.Contains("weathered"));
         }
         [TestMethod]
         public void ImplicitOperatorTests()
