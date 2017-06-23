@@ -138,6 +138,7 @@ namespace CodenameGenerator.Tests
         {
             _generator.Separator = "";
             _generator.Casing = (Casing.PascalCase);
+            _generator.SetParts(TestWordBank.JobTitles, WordBank.FirstNames);
             var result = _generator.Generate();
             var regex = @"^[A-Z][a-z]+([A-Z][a-z]+)+$";
             Assert.IsTrue(Regex.IsMatch(result, regex));
