@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace CodenameGenerator
 {
     public class Generator
@@ -47,7 +48,7 @@ namespace CodenameGenerator
                             word = word.ToUpper();
                             break;
                         case Casing.PascalCase:
-                            word = FirstCharToUpper(word);
+                            word = word.FirstCharToUpper();
                             break;
                         case Casing.CamelCase:
                             if (string.IsNullOrEmpty(name))
@@ -55,7 +56,7 @@ namespace CodenameGenerator
                                 word = word.ToLower();
                             }
                             else
-                                word = FirstCharToUpper(word);
+                                word = word.FirstCharToUpper();
                             break;
                     }         
 
@@ -69,16 +70,6 @@ namespace CodenameGenerator
             if (Separator.Length > 0)
                 return name.Remove(name.Length - Separator.Length);
             return name;
-        }
-
-        //http://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-for-maximum-performance
-        private static string FirstCharToUpper(string input)
-        {
-            if (String.IsNullOrEmpty(input))
-                throw new ArgumentException("There is no first letter");
-            char[] first = input.ToCharArray();
-            first[0] = char.ToUpper(first[0]);
-            return new string(first);
         }
 
         public string[] GenerateMany(int count)
