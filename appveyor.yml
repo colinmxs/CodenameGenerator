@@ -32,6 +32,8 @@ test_script:
     dotnet test -c Release --no-build
 on_success:
 - ps: >-
-    nuget.exe setApiKey $env:api_key -source https://www.nuget.org
-
-    nuget push "$env:appveyor_build_folder\src\CodenameGenerator\bin\Release\CodenameGenerator.$env:appveyor_build_version.nupkg" -source https://www.nuget.org
+    if(!$env:APPVEYOR_PULL_REQUEST_NUMBER)
+    {
+      nuget.exe setApiKey $env:api_key -source https://www.nuget.org
+      nuget push "$env:appveyor_build_folder\src\CodenameGenerator\bin\Release\CodenameGenerator.$env:appveyor_build_version.nupkg" -source https://www.nuget.org
+    }
