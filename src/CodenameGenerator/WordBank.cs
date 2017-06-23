@@ -21,6 +21,7 @@ namespace CodenameGenerator
         public static readonly WordBank MaleFirstNames = new WordBank(Word.MaleFirstName, "MaleFirstName", new MaleFirstNameRepository());
         public static readonly WordBank Months = new WordBank(Word.Month, "Month", new MonthRepository());
         public static readonly WordBank StateNames = new WordBank(Word.StateName, "StateNames", new StateNamesRepository());
+        public static readonly WordBank JobTitles = new WordBank(Word.JobTitle, "JobTitles", new JobTitlesRepository());
 
         public WordBank(Word value, string name, IStringRepository repo)
         {

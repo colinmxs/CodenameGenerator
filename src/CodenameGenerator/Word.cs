@@ -13,6 +13,7 @@
         Month,
         StateName,
         MaleTitle,
-        FemaleTitle
+        FemaleTitle,
+        JobTitle
     }
 }

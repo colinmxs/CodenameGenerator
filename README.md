@@ -92,10 +92,10 @@ By default, the name generator will generate a code name consisting of an adject
 + State Names
 + Months
 + Days
++ Job Titles
 
 ## Available Casings
 + PascalCase (e.g. HelloWorld)
 + CamelCase (e.g. helloWorld)
 + LowerCase (e.g. helloworld)
 + UpperCase (e.g. HELLOWORLD)
-
