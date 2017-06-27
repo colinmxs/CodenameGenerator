@@ -7,7 +7,7 @@ namespace CodenameGenerator
     {
         protected readonly string Name;
         protected readonly Word Value;
-        protected readonly IStringRepository Repo;
+        protected readonly WordRepository Repo;
 
         public static readonly WordBank Nouns = new WordBank(Word.Noun, "Nouns", new NounsRepository());
         public static readonly WordBank Adjectives = new WordBank(Word.Adjective, "Adjectives", new AdjectivesRepository());
@@ -25,7 +25,7 @@ namespace CodenameGenerator
         public static readonly WordBank Countries = new WordBank(Word.Country, "Countries", new CountriesRepository());
         public static readonly WordBank Cities = new WordBank(Word.City, "Cities", new CitiesRepository());
 
-        public WordBank(Word value, string name, IStringRepository repo)
+        public WordBank(Word value, string name, WordRepository repo)
         {
             Name = name;
             Value = value;
