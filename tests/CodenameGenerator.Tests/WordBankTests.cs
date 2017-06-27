@@ -166,6 +166,24 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(!countries.Contains("Chicago"));
         }
         [TestMethod]
+        public void Adverbs()
+        {
+            var adverbsBank = WordBank.Adverbs;
+            string[] adverbs = adverbsBank.Get();
+            Assert.IsNotNull(adverbs);
+            Assert.IsTrue(adverbs.Contains("delicately"));
+            Assert.IsTrue(!adverbs.Contains("urinate"));
+        }
+        [TestMethod]
+        public void Verbs()
+        {
+            var verbsBank = WordBank.Verbs;
+            string[] verbs = verbsBank.Get();
+            Assert.IsNotNull(verbs);
+            Assert.IsTrue(verbs.Contains("urinate"));
+            Assert.IsTrue(!verbs.Contains("delicately"));
+        }
+        [TestMethod]
         public void ImplicitOperatorTests()
         {
             var word = Word.Noun;

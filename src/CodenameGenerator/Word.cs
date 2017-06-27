@@ -4,6 +4,8 @@
     {
         Noun,
         Adjective,
+        Adverb,
+        Verb,
         FirstName,
         LastName,
         Title,

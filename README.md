@@ -80,8 +80,10 @@ Console.WriteLine(name); // "ex: president.donald.orange.douche.trump"
 By default, the name generator will generate a code name consisting of an adjective followed by a noun with a space in between the two. The result will be lowercase.
 
 ## Available WordBanks
-+ Adjectives
-+ Nouns
++ Adjectives (sourced from [ashley-bovan.co.uk](http://www.ashley-bovan.co.uk/words/partsofspeech.html))
++ Nouns (sourced from [ashley-bovan.co.uk](http://www.ashley-bovan.co.uk/words/partsofspeech.html))
++ Verbs (sourced from [ashley-bovan.co.uk](http://www.ashley-bovan.co.uk/words/partsofspeech.html))
++ Adverbs (sourced from [ashley-bovan.co.uk](http://www.ashley-bovan.co.uk/words/partsofspeech.html))
 + First Names 
  + Female First Names
  + Male First Names
@@ -94,7 +96,7 @@ By default, the name generator will generate a code name consisting of an adject
 + Job Titles
 + Countries
 + State Names (U.S. only)
-+ Cities
++ Cities (sourced from [MAXMIND](https://www.maxmind.com/en/free-world-cities-database))
 
 ## Available Casings
 + PascalCase (e.g. HelloWorld)

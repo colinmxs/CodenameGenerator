@@ -24,6 +24,9 @@ namespace CodenameGenerator
         public static readonly WordBank JobTitles = new WordBank(Word.JobTitle, "JobTitles", new JobTitlesRepository());
         public static readonly WordBank Countries = new WordBank(Word.Country, "Countries", new CountriesRepository());
         public static readonly WordBank Cities = new WordBank(Word.City, "Cities", new CitiesRepository());
+        public static readonly WordBank Adverbs = new WordBank(Word.Adverb, "Adverbs", new AdverbsRepository());
+        public static readonly WordBank Verbs = new WordBank(Word.Verb, "Verbs", new VerbsRepository());
+
 
         public WordBank(Word value, string name, WordRepository repo)
         {
