@@ -89,10 +89,12 @@ By default, the name generator will generate a code name consisting of an adject
 + Titles
  + Male Titles
  + Female Titles
-+ State Names
 + Months
 + Days
 + Job Titles
++ Countries
++ State Names (U.S. only)
++ Cities
 
 ## Available Casings
 + PascalCase (e.g. HelloWorld)
