@@ -1,5 +1,4 @@
-# CodenameGenerator
-[![Build status](https://ci.appveyor.com/api/projects/status/1fu843atedo0a2hn/branch/master?svg=true)](https://ci.appveyor.com/project/colinmxs/codenamegenerator/branch/master)
+# CodenameGenerator [![Build status](https://ci.appveyor.com/api/projects/status/1fu843atedo0a2hn/branch/master?svg=true)](https://ci.appveyor.com/project/colinmxs/codenamegenerator/branch/master)
 Generates random codenames/usernames/whatever you want!
 
 [NuGet link](https://www.nuget.org/packages/CodenameGenerator/1.0.0)
