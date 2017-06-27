@@ -9,10 +9,10 @@ namespace CodenameGenerator
         protected readonly Word Value;
         protected readonly IStringRepository Repo;
 
-        public static readonly WordBank Nouns = new WordBank(Word.Noun, "Nouns", new FileRepository("nouns.csv"));
-        public static readonly WordBank Adjectives = new WordBank(Word.Adjective, "Adjectives", new FileRepository("adjectives.csv"));
-        public static readonly WordBank FirstNames = new WordBank(Word.FirstName, "FirstNames", new FileRepository("firstnames.csv"));
-        public static readonly WordBank LastNames = new WordBank(Word.LastName, "LastNames", new FileRepository("lastnames.csv"));
+        public static readonly WordBank Nouns = new WordBank(Word.Noun, "Nouns", new NounsRepository());
+        public static readonly WordBank Adjectives = new WordBank(Word.Adjective, "Adjectives", new AdjectivesRepository());
+        public static readonly WordBank FirstNames = new WordBank(Word.FirstName, "FirstNames", new FirstNamesRepository());
+        public static readonly WordBank LastNames = new WordBank(Word.LastName, "LastNames", new LastNamesRepository());
         public static readonly WordBank Titles = new WordBank(Word.Title, "Titles", new TitleRepository());
         public static readonly WordBank MaleTitles = new WordBank(Word.MaleTitle, "MaleTitles", new MaleTitleRepository());
         public static readonly WordBank FemaleTitles = new WordBank(Word.FemaleTitle, "FemaleTitles", new FemaleTitleRepository());
