@@ -16,12 +16,14 @@ namespace CodenameGenerator
         public static readonly WordBank Titles = new WordBank(Word.Title, "Titles", new TitleRepository());
         public static readonly WordBank MaleTitles = new WordBank(Word.MaleTitle, "MaleTitles", new MaleTitleRepository());
         public static readonly WordBank FemaleTitles = new WordBank(Word.FemaleTitle, "FemaleTitles", new FemaleTitleRepository());
-        public static readonly WordBank Days = new WordBank(Word.Day, "Day", new DaysRepository());
-        public static readonly WordBank FemaleFirstNames = new WordBank(Word.FemaleFirstName, "FemaleFirstName", new FemaleFirstNameRepository());
-        public static readonly WordBank MaleFirstNames = new WordBank(Word.MaleFirstName, "MaleFirstName", new MaleFirstNameRepository());
-        public static readonly WordBank Months = new WordBank(Word.Month, "Month", new MonthRepository());
+        public static readonly WordBank Days = new WordBank(Word.Day, "Days", new DaysRepository());
+        public static readonly WordBank FemaleFirstNames = new WordBank(Word.FemaleFirstName, "FemaleFirstNames", new FemaleFirstNameRepository());
+        public static readonly WordBank MaleFirstNames = new WordBank(Word.MaleFirstName, "MaleFirstNames", new MaleFirstNameRepository());
+        public static readonly WordBank Months = new WordBank(Word.Month, "Months", new MonthRepository());
         public static readonly WordBank StateNames = new WordBank(Word.StateName, "StateNames", new StateNamesRepository());
         public static readonly WordBank JobTitles = new WordBank(Word.JobTitle, "JobTitles", new JobTitlesRepository());
+        public static readonly WordBank Countries = new WordBank(Word.Country, "Countries", new CountriesRepository());
+        public static readonly WordBank Cities = new WordBank(Word.City, "Cities", new CitiesRepository());
 
         public WordBank(Word value, string name, IStringRepository repo)
         {

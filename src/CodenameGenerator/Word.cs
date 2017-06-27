@@ -14,6 +14,8 @@
         StateName,
         MaleTitle,
         FemaleTitle,
-        JobTitle
+        JobTitle,
+        Country,
+        City
     }
 }
