@@ -148,6 +148,24 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(!jobs.Contains("weathered"));
         }
         [TestMethod]
+        public void Cities()
+        {
+            var citiesBank = WordBank.Cities;
+            string[] cities = citiesBank.Get();
+            Assert.IsNotNull(cities);
+            Assert.IsTrue(cities.Contains("chicago"));
+            Assert.IsTrue(!cities.Contains("chile"));
+        }
+        [TestMethod]
+        public void Countries()
+        {
+             var countriesBank = WordBank.Countries;
+            string[] countries = countriesBank.Get();
+            Assert.IsNotNull(countries);
+            Assert.IsTrue(countries.Contains("United States"));
+            Assert.IsTrue(!countries.Contains("Chicago"));
+        }
+        [TestMethod]
         public void ImplicitOperatorTests()
         {
             var word = Word.Noun;
