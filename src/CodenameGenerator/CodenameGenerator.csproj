@@ -7,13 +7,13 @@
     <Authors>Colin Smith</Authors>
     <Company />
     <Copyright>2017 Colin Smith</Copyright>
-    <PackageTags>codename name generator code username random word codenamegenerator words nouns adjectives firstnames lastnames</PackageTags>
+    <PackageTags>codenamegenerator codename code name generator random word</PackageTags>
     <PackageProjectUrl>https://github.com/colinmxs/CodenameGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
     <Description>Codename generator for .NET</Description>
     <Version>1.2.0</Version>
     <PackageReleaseNotes>Added countries and cities wordbanks</PackageReleaseNotes>
-    <FileVersion>1.0.4.0</FileVersion>
+    <FileVersion>1.0.5.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
