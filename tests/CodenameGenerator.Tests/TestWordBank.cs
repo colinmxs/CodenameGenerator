@@ -9,7 +9,7 @@
         public static readonly new WordBank Titles = new WordBank(Word.Title, "Titles", new WordRepository("Aunt", "Uncle"));
         public static readonly new WordBank JobTitles = new WordBank(Word.JobTitle, "JobTitles", new WordRepository("Airline Traffic Controller", "Hospital Man"));
         
-        public TestWordBank(Word value, string name, IStringRepository repo) : base(value, name, repo)
+        public TestWordBank(Word value, string name, WordRepository repo) : base(value, name, repo)
         {
         }
     }

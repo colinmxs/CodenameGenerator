@@ -7,12 +7,12 @@ namespace CodenameGenerator
     {
         protected readonly string Name;
         protected readonly Word Value;
-        protected readonly IStringRepository Repo;
+        protected readonly WordRepository Repo;
 
-        public static readonly WordBank Nouns = new WordBank(Word.Noun, "Nouns", new FileRepository("nouns.csv"));
-        public static readonly WordBank Adjectives = new WordBank(Word.Adjective, "Adjectives", new FileRepository("adjectives.csv"));
-        public static readonly WordBank FirstNames = new WordBank(Word.FirstName, "FirstNames", new FileRepository("firstnames.csv"));
-        public static readonly WordBank LastNames = new WordBank(Word.LastName, "LastNames", new FileRepository("lastnames.csv"));
+        public static readonly WordBank Nouns = new WordBank(Word.Noun, "Nouns", new NounsRepository());
+        public static readonly WordBank Adjectives = new WordBank(Word.Adjective, "Adjectives", new AdjectivesRepository());
+        public static readonly WordBank FirstNames = new WordBank(Word.FirstName, "FirstNames", new FirstNamesRepository());
+        public static readonly WordBank LastNames = new WordBank(Word.LastName, "LastNames", new LastNamesRepository());
         public static readonly WordBank Titles = new WordBank(Word.Title, "Titles", new TitleRepository());
         public static readonly WordBank MaleTitles = new WordBank(Word.MaleTitle, "MaleTitles", new MaleTitleRepository());
         public static readonly WordBank FemaleTitles = new WordBank(Word.FemaleTitle, "FemaleTitles", new FemaleTitleRepository());
@@ -24,8 +24,11 @@ namespace CodenameGenerator
         public static readonly WordBank JobTitles = new WordBank(Word.JobTitle, "JobTitles", new JobTitlesRepository());
         public static readonly WordBank Countries = new WordBank(Word.Country, "Countries", new CountriesRepository());
         public static readonly WordBank Cities = new WordBank(Word.City, "Cities", new CitiesRepository());
+        public static readonly WordBank Adverbs = new WordBank(Word.Adverb, "Adverbs", new AdverbsRepository());
+        public static readonly WordBank Verbs = new WordBank(Word.Verb, "Verbs", new VerbsRepository());
 
-        public WordBank(Word value, string name, IStringRepository repo)
+
+        public WordBank(Word value, string name, WordRepository repo)
         {
             Name = name;
             Value = value;

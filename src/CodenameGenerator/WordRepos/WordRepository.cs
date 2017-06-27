@@ -1,6 +1,6 @@
 ﻿namespace CodenameGenerator
 {
-    public class WordRepository : IStringRepository
+    public class WordRepository
     {
         private readonly string[] _words;
 
