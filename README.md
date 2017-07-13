@@ -95,7 +95,7 @@ By default, the name generator will generate a code name consisting of an adject
 + Days
 + Job Titles
 + Countries
-+ State Names (U.S. only)
++ State Names (U.S. only) (sourced from [datasets-io](https://github.com/datasets-io/us-states-names)
 + Cities (sourced from [MAXMIND](https://www.maxmind.com/en/free-world-cities-database))
 
 ## Available Casings
