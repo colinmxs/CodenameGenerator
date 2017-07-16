@@ -12,9 +12,7 @@
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
     <Description>Codename generator for .NET</Description>
     <Version>1.3.0</Version>
-    <PackageReleaseNotes>+ Performance improvements
-+ added verbs wordbank
-+ add adverbs wordbank</PackageReleaseNotes>
+    <PackageReleaseNotes>+ better inteliisense support</PackageReleaseNotes>
     <FileVersion>1.0.6.0</FileVersion>
   </PropertyGroup>
 
