@@ -25,6 +25,7 @@ namespace CodenameGenerator
         }
 
         public string Separator = " ";
+        public string EndsWith = "";
         public WordBank[] Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
         public Casing Casing = Casing.LowerCase;
         public string Generate()
@@ -68,8 +69,8 @@ namespace CodenameGenerator
                 }
             }
             if (Separator.Length > 0)
-                return name.Remove(name.Length - Separator.Length);
-            return name;
+                name = name.Remove(name.Length - Separator.Length);
+            return name + EndsWith;
         }
 
         public string[] GenerateMany(int count)

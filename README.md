@@ -65,6 +65,15 @@ var name = generator.Generate();
 
 Console.WriteLine(name); // "ex: rambunctiousArthropod"
 ```
+```C#
+var generator = new Generator();
+generator.EndsWith = "@gmail.com";
+generator.Separator = ""; //no separator
+var name = generator.Generate();
+
+Console.WriteLine(name); // "ex: rambunctiousarthropod@gmail.com"
+```
+
 Contrived example usage:
 ```C#
 var generator = new Generator();

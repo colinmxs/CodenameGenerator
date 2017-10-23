@@ -44,6 +44,7 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(_generator.Parts[0] == Word.Adjective);
             Assert.IsTrue(_generator.Parts[1] == Word.Noun);
             Assert.IsTrue(_generator.Casing == Casing.LowerCase);
+            Assert.IsTrue(_generator.EndsWith == "");
         }
 
         [TestMethod]
@@ -95,6 +96,15 @@ namespace CodenameGenerator.Tests
                 Assert.IsTrue(result.Contains(separator.ToString()));
             }
         }        
+
+        [TestMethod]
+        public void Generate_SetEndsWith()
+        {
+            var emailSuffix = "@gmail.com";
+            _generator.EndsWith = emailSuffix;
+            var result = _generator.Generate();
+            Assert.IsTrue(result.EndsWith(emailSuffix));
+        }
 
         [TestMethod]
         public void Generate_SetParts()
