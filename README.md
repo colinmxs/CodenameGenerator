@@ -1,7 +1,7 @@
 # CodenameGenerator [![Build status](https://ci.appveyor.com/api/projects/status/1fu843atedo0a2hn/branch/master?svg=true)](https://ci.appveyor.com/project/colinmxs/codenamegenerator/branch/master)
 Generates random codenames/usernames/whatever you want!
 
-[NuGet link](https://www.nuget.org/packages/CodenameGenerator/1.0.0)
+[NuGet link](https://www.nuget.org/packages/CodenameGenerator)
 
 ## Examples
 Generate code name:
@@ -104,7 +104,7 @@ By default, the name generator will generate a code name consisting of an adject
 + Days
 + Job Titles
 + Countries
-+ State Names (U.S. only)
++ State Names (U.S. only) (sourced from [datasets-io](https://github.com/datasets-io/us-states-names))
 + Cities (sourced from [MAXMIND](https://www.maxmind.com/en/free-world-cities-database))
 
 ## Available Casings

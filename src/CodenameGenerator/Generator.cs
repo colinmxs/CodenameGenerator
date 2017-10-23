@@ -1,40 +1,82 @@
-﻿using System;
-
-
-namespace CodenameGenerator
+﻿namespace CodenameGenerator
 {
+    using System;
+
     public class Generator
     {
-        private readonly Random _random = new Random();
+        private readonly Random random;
 
-        public Generator(string separator, Casing casing)
+        /// <summary>
+        /// String value used to separate the different words that make up a generated code name.
+        /// </summary>
+        public string Separator { get; set; }
+
+        /// <summary>
+        /// Array of WordBanks which will be accessed sequentially (by order of array index) to provide words for code name generation.
+        /// </summary>
+        public WordBank[] Parts { get; set; }
+
+        /// <summary>
+        /// The casing format for generated code names.
+        /// </summary>
+        public Casing Casing { get; set; }
+
+        /// <summary>
+        /// String value used as a suffix for the generated code name.
+        /// </summary>
+        public string EndsWith { get; set; }
+
+        /// <summary>
+        /// Default constructor. If called w/o ctor parameters, resulting Generator object will be created with the default Parts, Separator, and Casing properties.
+        /// </summary>
+        /// <param name="separator">The Separator</param>
+        /// <param name="casing">The Casing</param>
+        public Generator(string separator = " ", Casing casing = Casing.LowerCase)
         {
+            Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
             Separator = separator;
             Casing = casing;
+            random = new Random();
+            EndsWith = "";
         }
 
-        public Generator(string separator, Casing casing, params WordBank[] banks)
+        /// <summary>
+        /// Constructor offering params for specifying WordBanks.
+        /// </summary>
+        /// <param name="separator">The Separator</param>
+        /// <param name="casing">The Casing</param>
+        /// <param name="wordBanks">Comma-delimited WordBank instances</param>
+        /// <example>
+        /// new Generator("-", Casing.LowerCase, WordBank.Titles, WordBank.FirstNames, WordBank.LastNames)
+        /// </example>
+        public Generator(string separator, Casing casing, params WordBank[] wordBanks) : this(separator, casing)
         {
-            Separator = separator;
-            Casing = casing;
-            Parts = banks;
+            Parts = wordBanks;
         }
 
-        public Generator()
+        /// <summary>
+        /// params-based Setter method for the Parts property.
+        /// </summary>
+        /// <param name="wordBanks">Comma-delimited WordBank instances</param>
+        /// <example>
+        /// generator.SetParts(WordBank.Adjectives, WordBank.Nouns)
+        /// </example>
+        public void SetParts(params WordBank[] wordBanks)
         {
-        }
+            Parts = wordBanks;
+        }                
 
-        public string Separator = " ";
-        public string EndsWith = "";
-        public WordBank[] Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
-        public Casing Casing = Casing.LowerCase;
+        /// <summary>
+        /// Generates a code name based on current configuration of Separator, Parts, and Casing properties.
+        /// </summary>
+        /// <returns>A code name</returns>
         public string Generate()
         {
-            var name = "";
+            var name = string.Empty;
             for (int i = 0; i < Parts.Length; i++)
             {
                 var repositoryContents = Parts[i].Get();                
-                var index = _random.Next(repositoryContents.Length);
+                var index = random.Next(repositoryContents.Length);
                 var part = repositoryContents[index];
                 var partWords = part.Split(' ');
                 foreach (var partWord in partWords)
@@ -73,6 +115,11 @@ namespace CodenameGenerator
             return name + EndsWith;
         }
 
+        /// <summary>
+        /// Generates the specified number of code names.
+        /// </summary>
+        /// <param name="count">The number of code names to generate</param>
+        /// <returns>An array of code names</returns>
         public string[] GenerateMany(int count)
         {
             var names = new string[count];
@@ -83,13 +130,13 @@ namespace CodenameGenerator
                 i++;
             }
             return names;
-        }                
-
-        public void SetParts(params WordBank[] wordBanks)
-        {
-            Parts = wordBanks;
-        }
-
+        }        
+        
+        /// <summary>
+        /// Generates a code name that does not match any of the supplied reserved names.
+        /// </summary>
+        /// <param name="reserved">An array of names that should not match the generated code name</param>
+        /// <returns>A unique code name</returns>
         public string GenerateUnique(string[] reserved)
         {
             var name = Generate();
