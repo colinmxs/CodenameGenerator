@@ -2,8 +2,8 @@
 {
     public class TitleRepository : WordRepository
     {
-        internal TitleRepository() : 
-            base("Mister",
+        internal TitleRepository() : base(
+            "Mister",
             "Master",
             "Miss",
             "Mrs",
@@ -20,8 +20,6 @@
             "Queen",
             "Princess",
             "Aunt",
-            "Uncle")
-        {
-        }
+            "Uncle") { }
     }
 }

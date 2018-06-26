@@ -2,7 +2,7 @@
 {
     public class AdverbsRepository : WordRepository
     {
-        public AdverbsRepository() : base(            
+        public AdverbsRepository() : base(
             "aback",
             "abaft",
             "abandonedly",
@@ -6253,7 +6253,6 @@
             "zestfully",
             "zigzag",
             "zonally",
-            "zoologically")
-        { }
+            "zoologically") { }
     }
 }

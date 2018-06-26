@@ -1,9 +1,8 @@
 ﻿namespace CodenameGenerator.WordRepos
 {
-    internal class FemaleTitleRepository : WordRepository
+    public class FemaleTitleRepository : WordRepository
     {
-        internal FemaleTitleRepository() : 
-            base(
+        public FemaleTitleRepository() : base(
             "Master",
             "Miss",
             "Mrs",
@@ -15,8 +14,6 @@
             "President",
             "Queen",
             "Princess",
-            "Aunt")
-        {
-        }
+            "Aunt") { }
     }
 }

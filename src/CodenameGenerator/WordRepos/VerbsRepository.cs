@@ -30620,7 +30620,6 @@
             "zoom",
             "zooms",
             "zugzwang",
-            "zugzwangs")
-        { }
+            "zugzwangs") { }
     }
 }
