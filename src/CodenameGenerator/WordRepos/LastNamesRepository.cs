@@ -3,6 +3,7 @@ namespace CodenameGenerator.WordRepos
     public class LastNamesRepository : WordRepository
     {
         public LastNamesRepository() : base(
+            new string[] {
             "Aaberg",
             "Aaby",
             "Aadland",
@@ -88801,6 +88802,6 @@ namespace CodenameGenerator.WordRepos
             "Zysett",
             "Zysk",
             "Zyskowski",
-            "Zywiec") { }
+            "Zywiec"}) { }
     }
 }

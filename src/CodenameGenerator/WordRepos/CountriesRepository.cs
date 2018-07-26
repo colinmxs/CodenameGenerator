@@ -3,6 +3,7 @@ namespace CodenameGenerator.WordRepos
     public class CountriesRepository : WordRepository
     {
         public CountriesRepository() : base(
+            new string[] {
             "Afghanistan",
             "Albania",
             "Algeria",
@@ -207,7 +208,7 @@ namespace CodenameGenerator.WordRepos
             "Welsh",
             "Yemen",
             "Zambia",
-            "Zimbabwe")
+            "Zimbabwe"})
         {
         }
     }

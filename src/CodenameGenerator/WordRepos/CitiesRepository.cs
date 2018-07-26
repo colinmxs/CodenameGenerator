@@ -3,6 +3,7 @@ namespace CodenameGenerator.WordRepos
     public class CitiesRepository : WordRepository
     {
         public CitiesRepository() : base(
+            new string[] {
             "andorra la vella",
             "canillo",
             "encamp",
@@ -47983,6 +47984,6 @@ namespace CodenameGenerator.WordRepos
             "rusape",
             "shurugwi",
             "victoria falls",
-            "zvishavane") { }
+            "zvishavane"}) { }
     }
 }

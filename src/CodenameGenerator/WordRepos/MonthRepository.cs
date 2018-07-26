@@ -3,16 +3,18 @@
     public class MonthRepository : WordRepository
     {
         public MonthRepository() : base(
-            "January", 
-            "February", 
-            "March", 
-            "May", 
-            "June", 
-            "July", 
-            "August", 
-            "September", 
-            "October", 
-            "November", 
-            "December") { }
+            new string[] {
+                "January",
+                "February",
+                "March",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            }) { }
     }
 }

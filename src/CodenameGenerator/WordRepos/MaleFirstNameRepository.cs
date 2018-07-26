@@ -4,6 +4,8 @@
     {
         //thanks https://github.com/datasets-io
         public MaleFirstNameRepository() : base(
+            new string[] 
+            {
             "Aaron",
             "Ab",
             "Abba",
@@ -3901,6 +3903,7 @@
             "Zelig",
             "Zerk",
             "Zollie",
-            "Zolly") { }
+            "Zolly"
+            }) { }
     }
 }

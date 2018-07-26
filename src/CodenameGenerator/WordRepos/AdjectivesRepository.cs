@@ -3,6 +3,7 @@ namespace CodenameGenerator.WordRepos
     public class AdjectivesRepository : WordRepository
     {
         public AdjectivesRepository() : base(
+            new string[] {
             "abactinal",
             "abandoned",
             "abased",
@@ -27322,6 +27323,6 @@ namespace CodenameGenerator.WordRepos
             "zymogenic",
             "zymolysis",
             "zymolytic",
-            "zymotic") { }
+            "zymotic"}) { }
     }
 }

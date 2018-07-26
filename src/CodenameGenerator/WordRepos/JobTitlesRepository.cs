@@ -3,6 +3,7 @@ namespace CodenameGenerator.WordRepos
     public class JobTitlesRepository : WordRepository
     {
         public JobTitlesRepository() : base(
+            new string[] {
             "Able Seamen",
             "Account Collector",
             "Accountant",
@@ -965,6 +966,6 @@ namespace CodenameGenerator.WordRepos
             "Word Processing Specialist",
             "Writer",
             "Zoo Veterinarian",
-            "Zoologist") { }
+            "Zoologist"}) { }
     }
 }

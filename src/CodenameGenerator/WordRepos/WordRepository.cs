@@ -4,7 +4,7 @@
     {
         private readonly string[] _words;
 
-        public WordRepository(params string[] words)
+        public WordRepository(string[] words)
         {
             _words = words;
         }

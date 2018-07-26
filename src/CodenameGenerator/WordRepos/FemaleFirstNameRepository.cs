@@ -3,6 +3,7 @@
     public class FemaleFirstNameRepository : WordRepository
     {
         public FemaleFirstNameRepository() : base(
+            new string[] {
             "Aaren",
             "Aarika",
             "Abagael",
@@ -4953,6 +4954,6 @@
             "Zsa",
             "Zsazsa",
             "Zulema",
-            "Zuzana") { }
+            "Zuzana" }) { }
     }
 }

@@ -3,6 +3,7 @@ namespace CodenameGenerator.WordRepos
     public class NounsRepository : WordRepository
     {
         public NounsRepository() : base(
+            new string[] {
             "aardvark",
             "aardvarks",
             "aardwolf",
@@ -82151,6 +82152,6 @@ namespace CodenameGenerator.WordRepos
             "zymometer",
             "zymometers",
             "zymosis",
-            "zymurgy") { }
+            "zymurgy"}) { }
     }
 }

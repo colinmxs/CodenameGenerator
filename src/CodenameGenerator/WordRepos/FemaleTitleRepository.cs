@@ -2,7 +2,7 @@
 {
     public class FemaleTitleRepository : WordRepository
     {
-        public FemaleTitleRepository() : base(
+        public FemaleTitleRepository() : base(new string[] {
             "Master",
             "Miss",
             "Mrs",
@@ -14,6 +14,6 @@
             "President",
             "Queen",
             "Princess",
-            "Aunt") { }
+            "Aunt"}) { }
     }
 }

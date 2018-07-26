@@ -2,7 +2,7 @@ namespace CodenameGenerator.WordRepos
 {
     public class FirstNamesRepository : WordRepository
     {
-        public FirstNamesRepository() : base(
+        public FirstNamesRepository() : base( new string[] {
                 "Aaron",
         "Aaron",
         "Abbey",
@@ -5496,6 +5496,6 @@ namespace CodenameGenerator.WordRepos
         "Zoraida",
         "Zula",
         "Zulema",
-        "Zulma") { }
+        "Zulma"}) { }
     }
 }
