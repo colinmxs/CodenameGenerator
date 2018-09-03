@@ -31,12 +31,13 @@
         /// </summary>
         /// <param name="separator">The Separator</param>
         /// <param name="casing">The Casing</param>
-        public Generator(string separator = " ", Casing casing = Casing.LowerCase)
+        /// <param name="seed">The Random Generator Seed</param>
+        public Generator(string separator = " ", Casing casing = Casing.LowerCase, int? seed = null)
         {
             Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
             Separator = separator;
             Casing = casing;
-            random = new Random();
+            random = (seed == null) ? new Random() : new Random(seed.Value);
             EndsWith = "";
         }
 

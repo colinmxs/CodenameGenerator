@@ -37,6 +37,18 @@ namespace CodenameGenerator.Tests
         }
 
         [TestMethod]
+        [DataRow(1)]
+        [DataRow(3)]
+        [DataRow(int.MaxValue)]
+        public void SeededTests(int seed)
+        {
+            var generator = new Generator(seed: seed);
+            string result = generator.Generate();
+            generator = new Generator(seed: seed);
+            Assert.IsTrue(result == generator.Generate());
+        }
+
+        [TestMethod]
         public void Defaults()
         {
             Assert.IsTrue(_generator.Separator == " ");
