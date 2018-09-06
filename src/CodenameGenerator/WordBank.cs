@@ -58,7 +58,7 @@ namespace CodenameGenerator
         public static readonly WordBank FemaleFirstNames = new WordBank(Word.FemaleFirstName, "FemaleFirstNames", new FemaleFirstNameRepository());
 
         /// <summary>
-        /// A list of female first names. Western origin.
+        /// A list of male first names. Western origin.
         /// </summary>
         public static readonly WordBank MaleFirstNames = new WordBank(Word.MaleFirstName, "MaleFirstNames", new MaleFirstNameRepository());
 
