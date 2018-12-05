@@ -9,7 +9,7 @@ Generates random codenames/usernames/whatever you want!
 var generator = new Generator();
 var name = generator.Generate(); //ex: "rambunctious arthropod"
 ```
-`.Generate()` will return a string consisting of a word from the WordBanks.Adjective repo followed by a word from the WordBanks.Nouns repo with a space in between the two. The result will be lowercase.
+`.Generate()` will return a string consisting of an adjective and a noun with a space in between the two. The result will be lowercase.
 
 ```C#
 var names = generator.GenerateMany(5);
