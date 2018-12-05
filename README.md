@@ -20,11 +20,11 @@ foreach(var name in names)
 {
      Console.WriteLine(name);	
 }
-//"ex: rambunctious arthropod"
-//"ex: green man"
-//"ex: laborious documentation"
-//"ex: angelic lobotomy"
-//"ex: abyssal hotdog"
+//ex: "rambunctious arthropod"
+//ex: "green man"
+//ex: "laborious documentation"
+//ex: "angelic lobotomy"
+//ex: "abyssal hotdog"
 ```
 Specify the separator:
 ```C#
@@ -32,7 +32,7 @@ var generator = new Generator();
 generator.Separator = "-"
 var name = generator.Generate();
 
-Console.WriteLine(name); // "ex: rambunctious-arthropod"
+Console.WriteLine(name); // ex: "rambunctious-arthropod"
 ```
 Specify the types of words used to construct the code name:
 ```C#
@@ -40,14 +40,14 @@ var generator = new Generator();
 generator.SetParts(WordBank.Adjectives, WordBank.FirstNames, WordBank.LastNames);
 var name = generator.Generate();
 
-Console.WriteLine(name); //"ex: stupid david jones"
+Console.WriteLine(name); //ex: "stupid david jones"
 ```
 ```C#
 var generator = new Generator();
 generator.SetParts(WordBank.Nouns);
 var name = generator.Generate();
 
-Console.WriteLine(name); //"ex: hospital"
+Console.WriteLine(name); //ex: "hospital"
 ```
 Specify the casing:
 ```C#
@@ -55,7 +55,7 @@ var generator = new Generator();
 generator.Casing = Casing.UpperCase;
 var name = generator.Generate();
 
-Console.WriteLine(name); // "ex: RAMBUNCTIOUS ARTHROPOD"
+Console.WriteLine(name); // ex: "RAMBUNCTIOUS ARTHROPOD"
 ```
 ```C#
 var generator = new Generator();
@@ -63,7 +63,7 @@ generator.Casing = Casing.CamelCase;
 generator.Separator = ""; //no separator
 var name = generator.Generate();
 
-Console.WriteLine(name); // "ex: rambunctiousArthropod"
+Console.WriteLine(name); // ex: "rambunctiousArthropod"
 ```
 ```C#
 var generator = new Generator();
@@ -71,7 +71,7 @@ generator.EndsWith = "@gmail.com";
 generator.Separator = ""; //no separator
 var name = generator.Generate();
 
-Console.WriteLine(name); // "ex: rambunctiousarthropod@gmail.com"
+Console.WriteLine(name); // ex: "rambunctiousarthropod@gmail.com"
 ```
 
 Contrived example usage:
@@ -82,7 +82,7 @@ generator.Separator = ".";
 generator.SetParts(WordBank.Titles, WordBank.FirstNames, WordBank.Adjectives, WordBank.Nouns, WordBank.LastNames);
 var name = generator.Generate();
 
-Console.WriteLine(name); // "ex: president.donald.orange.douche.trump"
+Console.WriteLine(name); // ex: "president.donald.orange.douche.trump"
 ```
 
 ## Default Configuration
