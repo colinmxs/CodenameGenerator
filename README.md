@@ -4,89 +4,49 @@ Generates random codenames/usernames/whatever you want!
 [NuGet link](https://www.nuget.org/packages/CodenameGenerator)
 
 ## Examples
-Generate code name:
+### Default Configuration
 ```C#
 var generator = new Generator();
-var name = generator.Generate();
-
-Console.WriteLine(name); //ex: "rambunctious arthropod"
 ```
-Generate many code names:
+By default, the name generator will generate a code name consisting of an adjective followed by a noun with a space in between the two. The result will be lowercase.
+
+#### Generate
 ```C#
-var generator = new Generator();
+var name = generator.Generate(); //ex: "rambunctious arthropod"
+```
+#### GenerateMany
+```C#
 var names = generator.GenerateMany(5);
 
-foreach(var name in names)
-{
-     Console.WriteLine(name);	
-}
 //ex: "rambunctious arthropod"
 //ex: "green man"
 //ex: "laborious documentation"
 //ex: "angelic lobotomy"
 //ex: "abyssal hotdog"
 ```
-Specify the separator:
+
+### Amazing Configurations
+#### Specify the separator:
 ```C#
-var generator = new Generator();
 generator.Separator = "-"
-var name = generator.Generate();
-
-Console.WriteLine(name); // ex: "rambunctious-arthropod"
+var name = generator.Generate(); // ex: "rambunctious-arthropod"
 ```
-Specify the types of words used to construct the code name:
+#### Specify the types of words used to construct the code name:
 ```C#
-var generator = new Generator();
 generator.SetParts(WordBank.Adjectives, WordBank.FirstNames, WordBank.LastNames);
-var name = generator.Generate();
-
-Console.WriteLine(name); //ex: "stupid david jones"
+var name = generator.Generate(); //ex: "stupid david jones"
 ```
+#### Specify the casing:
 ```C#
-var generator = new Generator();
-generator.SetParts(WordBank.Nouns);
-var name = generator.Generate();
-
-Console.WriteLine(name); //ex: "hospital"
-```
-Specify the casing:
-```C#
-var generator = new Generator();
 generator.Casing = Casing.UpperCase;
-var name = generator.Generate();
-
-Console.WriteLine(name); // ex: "RAMBUNCTIOUS ARTHROPOD"
+var name = generator.Generate(); // ex: "RAMBUNCTIOUS ARTHROPOD"
 ```
+#### Specify a suffix 
 ```C#
-var generator = new Generator();
-generator.Casing = Casing.CamelCase;
-generator.Separator = ""; //no separator
-var name = generator.Generate();
-
-Console.WriteLine(name); // ex: "rambunctiousArthropod"
-```
-```C#
-var generator = new Generator();
 generator.EndsWith = "@gmail.com";
 generator.Separator = ""; //no separator
-var name = generator.Generate();
-
-Console.WriteLine(name); // ex: "rambunctiousarthropod@gmail.com"
+var name = generator.Generate(); // ex: "rambunctiousarthropod@gmail.com"
 ```
-
-Contrived example usage:
-```C#
-var generator = new Generator();
-generator.Casing = Casing.LowerCase;
-generator.Separator = ".";
-generator.SetParts(WordBank.Titles, WordBank.FirstNames, WordBank.Adjectives, WordBank.Nouns, WordBank.LastNames);
-var name = generator.Generate();
-
-Console.WriteLine(name); // ex: "president.donald.orange.douche.trump"
-```
-
-## Default Configuration
-By default, the name generator will generate a code name consisting of an adjective followed by a noun with a space in between the two. The result will be lowercase.
 
 ## Available WordBanks
 + Adjectives (sourced from [ashley-bovan.co.uk](http://www.ashley-bovan.co.uk/words/partsofspeech.html))
