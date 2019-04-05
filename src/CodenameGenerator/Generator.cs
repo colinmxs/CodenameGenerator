@@ -26,7 +26,19 @@
         /// <summary>
         /// Array of WordBanks which will be accessed sequentially (by order of array index) to provide words for code name generation.
         /// </summary>
-        public WordBank[] Parts { get; set; }
+        private WordBank[] _parts;
+        public WordBank[] Parts
+        {
+            get
+            {
+                return _parts;
+            }
+            set
+            {
+                if (value == null) value = new WordBank[0];
+                _parts = value;
+            }
+        }
 
         /// <summary>
         /// The casing format for generated code names.
@@ -36,7 +48,19 @@
         /// <summary>
         /// String value used as a suffix for the generated code name.
         /// </summary>
-        public string EndsWith { get; set; }
+        private string _endsWith;
+        public string EndsWith
+        {
+            get
+            {
+                return _endsWith;
+            }
+            set
+            {
+                if (value == null) value = "";
+                _endsWith = value;
+            }
+        }
 
         /// <summary>
         /// Default constructor. If called w/o ctor parameters, resulting Generator object will be created with the default Parts, Separator, and Casing properties.
