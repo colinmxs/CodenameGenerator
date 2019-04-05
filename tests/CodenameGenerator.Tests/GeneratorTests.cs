@@ -180,5 +180,15 @@ namespace CodenameGenerator.Tests
             regex = @"[a-z]";
             Assert.IsTrue(Regex.IsMatch(result, regex));
         }
+
+        [TestMethod]
+        public void HandleNulls()
+        {
+            var generator = new Generator();
+            generator.Separator = null;            
+            generator.EndsWith = null;
+            generator.Parts = null;            
+            generator.Generate();
+        }
     }
 }
