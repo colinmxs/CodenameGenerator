@@ -9,7 +9,19 @@
         /// <summary>
         /// String value used to separate the different words that make up a generated code name.
         /// </summary>
-        public string Separator { get; set; }
+        private string _separator;
+        public string Separator
+        {
+            get
+            {
+                return _separator;
+            }
+            set
+            {
+                if (value == null) value = "";
+                _separator = value;
+            }
+        }
 
         /// <summary>
         /// Array of WordBanks which will be accessed sequentially (by order of array index) to provide words for code name generation.
