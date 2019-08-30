@@ -2,7 +2,7 @@ using System;
 
 namespace CodenameGenerator
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         //http://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-for-maximum-performance
         /// <summary>
@@ -10,7 +10,7 @@ namespace CodenameGenerator
         /// </summary>
         /// <param name="string"></param>
         /// <returns></returns>
-        public static string FirstCharToUpper(this string @string)
+        internal static string FirstCharToUpper(this string @string)
         {
             if (String.IsNullOrEmpty(@string))
                 throw new ArgumentException("There is no first letter");
