@@ -6,10 +6,10 @@
     {
         private readonly Random random;
 
+        private string _separator;
         /// <summary>
         /// String value used to separate the different words that make up a generated code name.
         /// </summary>
-        private string _separator;
         public string Separator
         {
             get
@@ -23,10 +23,10 @@
             }
         }
 
+        private WordBank[] _parts;
         /// <summary>
         /// Array of WordBanks which will be accessed sequentially (by order of array index) to provide words for code name generation.
         /// </summary>
-        private WordBank[] _parts;
         public WordBank[] Parts
         {
             get
@@ -45,10 +45,10 @@
         /// </summary>
         public Casing Casing { get; set; }
 
+        private string _endsWith;
         /// <summary>
         /// String value used as a suffix for the generated code name.
         /// </summary>
-        private string _endsWith;
         public string EndsWith
         {
             get
