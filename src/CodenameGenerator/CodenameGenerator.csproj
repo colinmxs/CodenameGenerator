@@ -11,10 +11,11 @@
     <PackageProjectUrl>https://github.com/colinmxs/CodenameGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
     <Description>Codename generator for .NET</Description>
-    <Version>1.3.2</Version>
-    <PackageReleaseNotes>+ Fixed bug: setting public properties to null causes an exception to be thrown during execution of the Generate() method</PackageReleaseNotes>
-    <FileVersion>1.0.9.0</FileVersion>
-    <AssemblyVersion>1.3.2.0</AssemblyVersion>
+    <Version>1.3.3</Version>
+    <PackageReleaseNotes>+ Fixed bug: string extension method used by the library is exposed via public access modifier
++ Fixed bug: intellisense descriptions aren't working for some properties</PackageReleaseNotes>
+    <FileVersion>1.0.10.0</FileVersion>
+    <AssemblyVersion>1.3.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
