@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netstandard1.0;netstandard1.3</TargetFrameworks>
-    <!--<TargetFramework>netstandard1.0</TargetFramework>-->
+    <TargetFrameworks>net452;netstandard1.0;netstandard1.3;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Colin Smith</Authors>
     <Company />
@@ -11,9 +10,8 @@
     <PackageProjectUrl>https://github.com/colinmxs/CodenameGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/colinmxs/CodenameGenerator</RepositoryUrl>
     <Description>Codename generator for .NET</Description>
-    <Version>1.3.3</Version>
-    <PackageReleaseNotes>+ Fixed bug: string extension method used by the library is exposed via public access modifier
-+ Fixed bug: intellisense descriptions aren't working for some properties</PackageReleaseNotes>
+    <Version>1.4.0</Version>
+    <PackageReleaseNotes>+ target netstandard2.0</PackageReleaseNotes>
     <FileVersion>1.0.10.0</FileVersion>
     <AssemblyVersion>1.3.1.0</AssemblyVersion>
   </PropertyGroup>
