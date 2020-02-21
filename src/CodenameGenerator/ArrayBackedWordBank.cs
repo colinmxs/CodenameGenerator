@@ -1,4 +1,4 @@
-﻿namespace CodenameGenerator
+﻿namespace CodenameGenerator.Lite
 {
     using System;
     using System.Threading.Tasks;

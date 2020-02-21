@@ -1,4 +1,4 @@
-﻿namespace CodenameGenerator
+﻿namespace CodenameGenerator.Lite
 {
     using System;
     using System.Collections.Generic;
@@ -57,12 +57,12 @@
                 return _endsWith;
             }
             set
-            {                
-                _endsWith = value ?? throw new ArgumentNullException(nameof(value)); 
+            {
+                _endsWith = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
-        private Generator(int? seed = null) 
+        private Generator(int? seed = null)
         {
             random = (seed == null) ? new Random() : new Random(seed.Value);
         }
@@ -85,7 +85,7 @@
         public void SetParts(params WordBank[] wordBanks)
         {
             Parts = wordBanks;
-        }                
+        }
 
         /// <summary>
         /// Generates a code name based on current configuration of Separator, Parts, and Casing properties.
@@ -112,10 +112,10 @@
             words = await Task.WhenAll(wordTasks).ConfigureAwait(false);
 
             // apply casing and add separator
-                                                         
+
             var name = string.Empty;
             for (int i = 0; i < words.Length; i++)
-            {        
+            {
                 // some "words" from the wordbank contain spaces. split here so we can handle casing properly
                 var partWords = words[i].Split(' ');
                 foreach (var partWord in partWords)
@@ -140,13 +140,13 @@
                             else
                                 word = word.FirstCharToUpper();
                             break;
-                    }         
+                    }
 
-                    if (string.IsNullOrEmpty(name))                    
+                    if (string.IsNullOrEmpty(name))
                         name = word;
                     else
                         name += word;
-                    name += Separator;           
+                    name += Separator;
                 }
             }
             if (Separator.Length > 0)
@@ -163,14 +163,14 @@
         {
             var names = new string[count];
             var i = 0;
-            while(i < count)
+            while (i < count)
             {
                 names[i] = await GenerateAsync().ConfigureAwait(false);
                 i++;
             }
             return names;
-        }        
-        
+        }
+
         /// <summary>
         /// Generates a code name that does not match any of the supplied reserved names.
         /// </summary>
@@ -184,6 +184,6 @@
                 return await GenerateUniqueAsync(reserved).ConfigureAwait(false);
             }
             return name;
-        }        
+        }
     }
 }

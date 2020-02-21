@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CodenameGenerator.Tests
+namespace CodenameGenerator.Lite.Tests
 {
     [TestClass]
     public class WordBankTests

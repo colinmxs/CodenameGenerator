@@ -1,4 +1,4 @@
-﻿namespace CodenameGenerator
+﻿namespace CodenameGenerator.Lite
 {
     /// <summary>
     /// Casing styles

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodenameGenerator", "src\CodenameGenerator\CodenameGenerator.csproj", "{16841816-4272-4FA9-A341-862362852578}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodenameGenerator.Lite", "src\CodenameGenerator\CodenameGenerator.Lite.csproj", "{16841816-4272-4FA9-A341-862362852578}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodenameGenerator.Tests", "tests\CodenameGenerator.Tests\CodenameGenerator.Tests.csproj", "{341B1D35-02EB-4D1D-91DB-713125795EB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodenameGenerator.Lite.Tests", "tests\CodenameGenerator.Tests\CodenameGenerator.Lite.Tests.csproj", "{341B1D35-02EB-4D1D-91DB-713125795EB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
