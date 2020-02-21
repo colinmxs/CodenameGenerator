@@ -1,6 +1,7 @@
 ﻿namespace CodenameGenerator
 {
-    using System;    
+    using System;
+    using System.Threading.Tasks;
 
     public class ArrayBackedWordBank : WordBank
     {
@@ -8,13 +9,14 @@
         
         public ArrayBackedWordBank(string[] data)
         {
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            WordCount = data.Length;
             _data = data;
         }
 
-        internal override string GetWord(Random random)
+        internal override Task<string> GetWordAsync(int index)
         {
-            var index = random.Next(_data.Length);
-            return _data[index];
+            return Task.FromResult(_data[index]);
         }
     }
 }

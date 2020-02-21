@@ -3,22 +3,21 @@
     using System;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class FileBackedWordBank : WordBank
     {
-        private readonly int count;
         private readonly string fileName;
         private const string folderName = "Data";
 
         internal FileBackedWordBank(string fileName, int lineCount)
         {
-            count = lineCount;
+            WordCount = lineCount;
             this.fileName = fileName;
         }
 
-        internal override string GetWord(Random random)
+        internal override async Task<string> GetWordAsync(int index)
         {
-            var index = random.Next(count);
             var part = File.ReadLines($"{folderName}/{fileName}").Skip(index).Take(1).Single();
             return part;
         }

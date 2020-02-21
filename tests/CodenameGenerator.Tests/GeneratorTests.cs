@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace CodenameGenerator.Tests
 {
@@ -8,7 +9,7 @@ namespace CodenameGenerator.Tests
     public class GeneratorTests
     {
         [TestMethod]
-        public void CTorTests()
+        public async Task CTorTests()
         {
             var @char = '-';
             var separator = @char.ToString();
@@ -16,7 +17,7 @@ namespace CodenameGenerator.Tests
             var generator = new Generator(separator, casing, null, WordBank.Verbs, WordBank.Adjectives);
             Assert.IsTrue(generator.Separator == "-");
             Assert.IsTrue(generator.Casing == casing);
-            var name = generator.Generate();
+            var name = await generator.GenerateAsync();
             var parts = name.Split(@char);
             Assert.IsTrue(parts.Length == 2);
         }
@@ -25,14 +26,14 @@ namespace CodenameGenerator.Tests
         [DataRow(1)]
         [DataRow(3)]
         [DataRow(int.MaxValue)]
-        public void SeededTests(int seed)
+        public async Task SeededTests(int seed)
         {
             var generator = new Generator(seed: seed);
             generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
-            string result = generator.Generate();
+            string result = await generator.GenerateAsync();
             generator = new Generator(seed: seed);
             generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
-            Assert.IsTrue(result == generator.Generate());
+            Assert.IsTrue(result == await generator.GenerateAsync());
         }
 
         [TestMethod]
@@ -41,15 +42,15 @@ namespace CodenameGenerator.Tests
             var generator = new Generator();
             Assert.IsTrue(generator.Separator == " ");
             Assert.IsTrue(generator.Casing == Casing.LowerCase);
-            Assert.IsTrue(generator.EndsWith == "");
+            Assert.IsTrue(generator.EndsWith == string.Empty);
         }
 
         [TestMethod]
-        public void Generate()
+        public async Task Generate()
         {
             var generator = new Generator();
             generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
-            string result = generator.Generate();
+            string result = await generator.GenerateAsync();
             Assert.IsNotNull(result);
             Assert.AreNotEqual("", result);
         }
@@ -59,11 +60,11 @@ namespace CodenameGenerator.Tests
         [DataRow(2)]
         [DataRow(4)]
         [DataRow(8)]
-        public void GenerateMany(int count)
+        public async Task GenerateMany(int count)
         {
             var generator = new Generator();
             generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
-            string[] results = generator.GenerateMany(count);
+            string[] results = await generator.GenerateMany(count);
             Assert.IsNotNull(results);
             Assert.AreEqual(count, results.Length);
             foreach (var result in results)
@@ -76,12 +77,12 @@ namespace CodenameGenerator.Tests
         [DataRow("-")]
         [DataRow("_")]
         [DataRow(".")]
-        public void Generate_SetSeparator(string separator)
+        public async Task Generate_SetSeparator(string separator)
         {
             var generator = new Generator();
             generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             generator.Separator = separator;
-            string result = generator.Generate();
+            string result = await generator.GenerateAsync();
             Assert.IsTrue(result.Contains(separator.ToString()));
         }
 
@@ -89,12 +90,12 @@ namespace CodenameGenerator.Tests
         [DataRow(2, "-.-")]
         [DataRow(4, ".")]
         [DataRow(6, "-")]
-        public void GenerateMany_SetSeparator(int count, string separator)
+        public async Task GenerateMany_SetSeparator(int count, string separator)
         {
             var generator = new Generator();
             generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             generator.Separator = separator;
-            var results = generator.GenerateMany(count);
+            var results = await generator.GenerateMany(count);
             foreach (var result in results)
             {
                 Assert.IsTrue(result.Contains(separator.ToString()));
@@ -102,18 +103,18 @@ namespace CodenameGenerator.Tests
         }
 
         [TestMethod]
-        public void Generate_SetEndsWith()
+        public async Task Generate_SetEndsWith()
         {
             var generator = new Generator();
             generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             var emailSuffix = "@gmail.com";
             generator.EndsWith = emailSuffix;
-            var result = generator.Generate();
+            var result = await generator.GenerateAsync();
             Assert.IsTrue(result.EndsWith(emailSuffix));
         }
 
         [TestMethod]
-        public void Generate_SetParts()
+        public async Task Generate_SetParts()
         {
             var generator = new Generator();
             generator.SetParts(WordBank.Titles, WordBank.FirstNames, WordBank.LastNames);
@@ -121,12 +122,9 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(generator.Parts[1] == WordBank.FirstNames);
             Assert.IsTrue(generator.Parts[2] == WordBank.LastNames);
 
-            var result = generator.Generate();
+            var result = await generator.GenerateAsync();
             var strings = result.Split(new string[] { generator.Separator }, StringSplitOptions.RemoveEmptyEntries);
             Assert.IsTrue(strings.Length == 3);
-            Assert.IsTrue(strings[0] == "aunt" || strings[0] == "uncle");
-            Assert.IsTrue(strings[1] == "david" || strings[1] == "roger");
-            Assert.IsTrue(strings[2] == "smith" || strings[2] == "jones");
         }
 
         [TestMethod]
@@ -138,7 +136,7 @@ namespace CodenameGenerator.Tests
         {
             var generator = new Generator();
             generator.SetParts(WordBank.Nouns);
-            var result = generator.GenerateUnique(new string[] { reserved });
+            var result = generator.GenerateUniqueAsync(new string[] { reserved });
             Assert.AreNotEqual(reserved, result);
         }
 
@@ -152,28 +150,28 @@ namespace CodenameGenerator.Tests
         }
 
         [TestMethod]
-        public void Generate_SetCasing()
+        public async Task Generate_SetCasing()
         {
             var generator = new Generator();
             generator.Separator = "";
             generator.Casing = (Casing.PascalCase);
             generator.SetParts(WordBank.JobTitles, WordBank.FirstNames);
-            var result = generator.Generate();
+            var result = await generator.GenerateAsync();
             var regex = @"^[A-Z][a-z]+([A-Z][a-z]+)+$";
             Assert.IsTrue(Regex.IsMatch(result, regex));
 
             generator.Casing = (Casing.CamelCase);
-            result = generator.Generate();
+            result = await generator.GenerateAsync();
             regex = @"^([a-z][a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*";
             Assert.IsTrue(Regex.IsMatch(result, regex));
 
             generator.Casing = (Casing.UpperCase);
-            result = generator.Generate();
+            result = await generator.GenerateAsync();
             regex = @"[A-Z]";
             Assert.IsTrue(Regex.IsMatch(result, regex));
 
             generator.Casing = Casing.LowerCase;
-            result = generator.Generate();
+            result = await generator.GenerateAsync();
             regex = @"[a-z]";
             Assert.IsTrue(Regex.IsMatch(result, regex));
         }

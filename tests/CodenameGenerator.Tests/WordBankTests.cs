@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CodenameGenerator.Tests
 {
@@ -9,7 +10,7 @@ namespace CodenameGenerator.Tests
     public class WordBankTests
     {
         [TestMethod]
-        public void WordBanks()
+        public async Task WordBanks()
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -28,7 +29,7 @@ namespace CodenameGenerator.Tests
             var jobTitles = WordBank.JobTitles;
 
             var gen = new Generator(" ", Casing.CamelCase, null, nouns, adjectives, firstNames, lastNames, titles, femaleTitles, maleTitles, stateNames, days, femaleFirstNames, maleFirstNames, months, jobTitles);
-            var name = gen.GenerateMany(1000);
+            var name = await gen.GenerateMany(1000);
             timer.Stop();
             Console.WriteLine(timer.ElapsedMilliseconds);
         }

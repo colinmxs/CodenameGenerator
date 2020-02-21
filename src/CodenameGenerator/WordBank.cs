@@ -93,6 +93,7 @@
         /// </summary>
         public static readonly WordBank Verbs = new FileBackedWordBank("verbs.txt", 30618);
 
-        internal abstract string GetWord(Random random);
+        protected internal int WordCount { get; protected set; }
+        internal abstract Task<string> GetWordAsync(int index);
     }
 }

@@ -1,6 +1,9 @@
 ﻿namespace CodenameGenerator
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Threading.Tasks;
 
     public class Generator
     {
@@ -59,15 +62,15 @@
             }
         }
 
-        public Generator(int? seed = null) 
-        { 
+        private Generator(int? seed = null) 
+        {
+            random = (seed == null) ? new Random() : new Random(seed.Value);
         }
 
-        public Generator(string separator = " ", Casing casing = Casing.LowerCase, int? seed = null, params WordBank[] wordBanks)
+        public Generator(string separator = " ", Casing casing = Casing.LowerCase, int? seed = null, params WordBank[] wordBanks) : this(seed)
         {
             Separator = separator;
             Casing = casing;
-            random = (seed == null) ? new Random() : new Random(seed.Value);
             Parts = wordBanks;
             EndsWith = "";
         }
@@ -88,23 +91,43 @@
         /// Generates a code name based on current configuration of Separator, Parts, and Casing properties.
         /// </summary>
         /// <returns>A code name</returns>
-        public string Generate()
+        public async Task<string> GenerateAsync()
         {
-            var name = string.Empty;
+            // get indexes
+            var indexes = new int[Parts.Length];
             for (int i = 0; i < Parts.Length; i++)
-            {                
-                var part = Parts[i].GetWord(random);
-                var partWords = part.Split(' ');
+            {
+                indexes[i] = random.Next(Parts[i].WordCount);
+            }
+
+            // get words
+            var wordTasks = new List<Task<string>>();
+            var words = new string[Parts.Length];
+
+            for (int i = 0; i < Parts.Length; i++)
+            {
+                wordTasks.Add(Parts[i].GetWordAsync(indexes[i]));
+            }
+
+            words = await Task.WhenAll(wordTasks).ConfigureAwait(false);
+
+            // apply casing and add separator
+                                                         
+            var name = string.Empty;
+            for (int i = 0; i < words.Length; i++)
+            {        
+                // some "words" from the wordbank contain spaces. split here so we can handle casing properly
+                var partWords = words[i].Split(' ');
                 foreach (var partWord in partWords)
                 {
                     var word = partWord;
                     switch (Casing)
                     {
                         case Casing.LowerCase:
-                            word = word.ToLower();
+                            word = word.ToLower(CultureInfo.InvariantCulture);
                             break;
                         case Casing.UpperCase:
-                            word = word.ToUpper();
+                            word = word.ToUpperInvariant();
                             break;
                         case Casing.PascalCase:
                             word = word.FirstCharToUpper();
@@ -112,7 +135,7 @@
                         case Casing.CamelCase:
                             if (string.IsNullOrEmpty(name))
                             {
-                                word = word.ToLower();
+                                word = word.ToLower(CultureInfo.InvariantCulture);
                             }
                             else
                                 word = word.FirstCharToUpper();
@@ -136,13 +159,13 @@
         /// </summary>
         /// <param name="count">The number of code names to generate</param>
         /// <returns>An array of code names</returns>
-        public string[] GenerateMany(int count)
+        public async Task<string[]> GenerateMany(int count)
         {
             var names = new string[count];
             var i = 0;
             while(i < count)
             {
-                names[i] = Generate();
+                names[i] = await GenerateAsync().ConfigureAwait(false);
                 i++;
             }
             return names;
@@ -153,12 +176,12 @@
         /// </summary>
         /// <param name="reserved">An array of names that should not match the generated code name</param>
         /// <returns>A unique code name</returns>
-        public string GenerateUnique(string[] reserved)
+        public async Task<string> GenerateUniqueAsync(string[] reserved)
         {
-            var name = Generate();
+            var name = await GenerateAsync().ConfigureAwait(false);
             if (Array.Exists(reserved, element => element == name))
             {
-                return GenerateUnique(reserved);
+                return await GenerateUniqueAsync(reserved).ConfigureAwait(false);
             }
             return name;
         }        
