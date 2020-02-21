@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace CodenameGenerator.Tests
@@ -14,18 +13,12 @@ namespace CodenameGenerator.Tests
             var @char = '-';
             var separator = @char.ToString();
             var casing = Casing.PascalCase;
-            var generator = new Generator(separator, casing);
-            Assert.IsTrue(generator.Separator == "-");
-            Assert.IsTrue(generator.Casing == casing);
-
-            generator = new Generator(separator, casing, WordBank.FirstNames, WordBank.LastNames);
+            var generator = new Generator(separator, casing, null, WordBank.Verbs, WordBank.Adjectives);
             Assert.IsTrue(generator.Separator == "-");
             Assert.IsTrue(generator.Casing == casing);
             var name = generator.Generate();
             var parts = name.Split(@char);
-            Assert.IsTrue(parts.Length == 2);            
-            Assert.IsTrue(WordBank.FirstNames.Get().Contains(parts[0]));
-            Assert.IsTrue(WordBank.LastNames.Get().Contains(parts[1]));
+            Assert.IsTrue(parts.Length == 2);
         }
 
         [TestMethod]
@@ -35,8 +28,10 @@ namespace CodenameGenerator.Tests
         public void SeededTests(int seed)
         {
             var generator = new Generator(seed: seed);
+            generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             string result = generator.Generate();
             generator = new Generator(seed: seed);
+            generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             Assert.IsTrue(result == generator.Generate());
         }
 
@@ -45,9 +40,6 @@ namespace CodenameGenerator.Tests
         {
             var generator = new Generator();
             Assert.IsTrue(generator.Separator == " ");
-            Assert.IsTrue(generator.Parts.Length == 2);
-            Assert.IsTrue(generator.Parts[0] == Word.Adjective);
-            Assert.IsTrue(generator.Parts[1] == Word.Noun);
             Assert.IsTrue(generator.Casing == Casing.LowerCase);
             Assert.IsTrue(generator.EndsWith == "");
         }
@@ -56,6 +48,7 @@ namespace CodenameGenerator.Tests
         public void Generate()
         {
             var generator = new Generator();
+            generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             string result = generator.Generate();
             Assert.IsNotNull(result);
             Assert.AreNotEqual("", result);
@@ -69,6 +62,7 @@ namespace CodenameGenerator.Tests
         public void GenerateMany(int count)
         {
             var generator = new Generator();
+            generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             string[] results = generator.GenerateMany(count);
             Assert.IsNotNull(results);
             Assert.AreEqual(count, results.Length);
@@ -77,7 +71,7 @@ namespace CodenameGenerator.Tests
                 Assert.AreNotEqual("", result);
             }
         }
-        
+
         [TestMethod]
         [DataRow("-")]
         [DataRow("_")]
@@ -85,6 +79,7 @@ namespace CodenameGenerator.Tests
         public void Generate_SetSeparator(string separator)
         {
             var generator = new Generator();
+            generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             generator.Separator = separator;
             string result = generator.Generate();
             Assert.IsTrue(result.Contains(separator.ToString()));
@@ -97,18 +92,20 @@ namespace CodenameGenerator.Tests
         public void GenerateMany_SetSeparator(int count, string separator)
         {
             var generator = new Generator();
+            generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             generator.Separator = separator;
             var results = generator.GenerateMany(count);
             foreach (var result in results)
             {
                 Assert.IsTrue(result.Contains(separator.ToString()));
             }
-        }        
+        }
 
         [TestMethod]
         public void Generate_SetEndsWith()
         {
             var generator = new Generator();
+            generator.SetParts(WordBank.Adjectives, WordBank.Nouns);
             var emailSuffix = "@gmail.com";
             generator.EndsWith = emailSuffix;
             var result = generator.Generate();
@@ -119,10 +116,10 @@ namespace CodenameGenerator.Tests
         public void Generate_SetParts()
         {
             var generator = new Generator();
-            generator.SetParts(TestWordBank.Titles, TestWordBank.FirstNames, TestWordBank.LastNames);
-            Assert.IsTrue(generator.Parts[0] == Word.Title);
-            Assert.IsTrue(generator.Parts[1] == Word.FirstName);
-            Assert.IsTrue(generator.Parts[2] == Word.LastName);
+            generator.SetParts(WordBank.Titles, WordBank.FirstNames, WordBank.LastNames);
+            Assert.IsTrue(generator.Parts[0] == WordBank.Titles);
+            Assert.IsTrue(generator.Parts[1] == WordBank.FirstNames);
+            Assert.IsTrue(generator.Parts[2] == WordBank.LastNames);
 
             var result = generator.Generate();
             var strings = result.Split(new string[] { generator.Separator }, StringSplitOptions.RemoveEmptyEntries);
@@ -130,17 +127,17 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(strings[0] == "aunt" || strings[0] == "uncle");
             Assert.IsTrue(strings[1] == "david" || strings[1] == "roger");
             Assert.IsTrue(strings[2] == "smith" || strings[2] == "jones");
-        }        
+        }
 
         [TestMethod]
         [DataRow("cat dog")]
         [DataRow("dog cat")]
         [DataRow("cat cat")]
-        [DataRow("dog dog")]        
+        [DataRow("dog dog")]
         public void GenerateUnique(string reserved)
         {
             var generator = new Generator();
-            generator.SetParts(TestWordBank.Nouns);
+            generator.SetParts(WordBank.Nouns);
             var result = generator.GenerateUnique(new string[] { reserved });
             Assert.AreNotEqual(reserved, result);
         }
@@ -160,7 +157,7 @@ namespace CodenameGenerator.Tests
             var generator = new Generator();
             generator.Separator = "";
             generator.Casing = (Casing.PascalCase);
-            generator.SetParts(TestWordBank.JobTitles, WordBank.FirstNames);
+            generator.SetParts(WordBank.JobTitles, WordBank.FirstNames);
             var result = generator.Generate();
             var regex = @"^[A-Z][a-z]+([A-Z][a-z]+)+$";
             Assert.IsTrue(Regex.IsMatch(result, regex));
@@ -182,13 +179,30 @@ namespace CodenameGenerator.Tests
         }
 
         [TestMethod]
-        public void HandleNulls()
+        [ExpectedException(typeof(ArgumentNullException))]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(3)]
+        public void HandleNulls(int test)
         {
             var generator = new Generator();
-            generator.Separator = null;            
-            generator.EndsWith = null;
-            generator.Parts = null;            
-            generator.Generate();
+
+            switch (test)
+            {
+                case 0:
+                    generator.Parts = null;
+                    break;
+                case 1:
+                    generator.Separator = null;
+                    break;
+                case 2:
+                    generator.EndsWith = null;
+                    break;
+                case 3:
+                    generator.Parts = null;
+                    break;
+            }
         }
     }
 }

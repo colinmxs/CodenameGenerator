@@ -1,6 +1,7 @@
-﻿namespace CodenameGenerator
+﻿namespace CodenameGenerator.Core
 {
     using System;
+    using System.Collections.Generic;
 
     public class Generator
     {
@@ -22,11 +23,11 @@
             }
         }
 
-        private WordBank[] _parts;
+        private IWordBank[] _parts;
         /// <summary>
         /// WordBanks which will be accessed sequentially to provide words for code name generation.
         /// </summary>
-        public WordBank[] Parts
+        public IWordBank[] Parts
         {
             get
             {
@@ -59,11 +60,13 @@
             }
         }
 
-        public Generator(int? seed = null) 
-        { 
-        }
-
-        public Generator(string separator = " ", Casing casing = Casing.LowerCase, int? seed = null, params WordBank[] wordBanks)
+        /// <summary>
+        /// Default constructor. If called w/o ctor parameters, resulting Generator object will be created with the default Parts, Separator, and Casing properties.
+        /// </summary>
+        /// <param name="separator">The Separator</param>
+        /// <param name="casing">The Casing</param>
+        /// <param name="seed">The Random Generator Seed</param>
+        public Generator(string separator = " ", Casing casing = Casing.LowerCase, int? seed = null, params IWordBank[] wordBanks)
         {
             Separator = separator;
             Casing = casing;
@@ -79,7 +82,7 @@
         /// <example>
         /// generator.SetParts(WordBank.Adjectives, WordBank.Nouns)
         /// </example>
-        public void SetParts(params WordBank[] wordBanks)
+        public void SetParts(params IWordBank[] wordBanks)
         {
             Parts = wordBanks;
         }                

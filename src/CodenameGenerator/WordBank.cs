@@ -1,128 +1,98 @@
-﻿using CodenameGenerator.WordRepos;
+﻿namespace CodenameGenerator
+{
+    using System;
+    using System.Threading.Tasks;
 
-namespace CodenameGenerator
-{    
-    //http://stackoverflow.com/questions/38855909/alternative-to-enum-in-design-pattern
-    public class WordBank
+    public abstract class WordBank
     {
-        protected readonly string Name;
-        protected readonly Word Value;
-        protected readonly WordRepository Repo;
-
         /// <summary>
-        /// A metric butt-ton of nouns, ranging from common to...not so common.
+        /// Common and uncommon nouns.
         /// </summary>
-        public static readonly WordBank Nouns = new WordBank(Word.Noun, "Nouns", new NounsRepository());
-
-        /// <summary>
-        /// A sturdy list of adjectives. Common and uncommon.
-        /// </summary>
-        public static readonly WordBank Adjectives = new WordBank(Word.Adjective, "Adjectives", new AdjectivesRepository());
-
-        /// <summary>
-        // A list of first names. All genders.
-        /// </summary>
-        public static readonly WordBank FirstNames = new WordBank(Word.FirstName, "FirstNames", new FirstNamesRepository());
+        public static readonly WordBank Nouns = new FileBackedWordBank("nouns.txt", 82149);
 
         /// <summary>
         /// A list of last names.
         /// </summary>
-        public static readonly WordBank LastNames = new WordBank(Word.LastName, "LastNames", new LastNamesRepository());
+        public static readonly WordBank LastNames = new FileBackedWordBank("last-names.txt", 88799);
 
         /// <summary>
         /// An arbitrary list of titles. All genders:
         /// "President", "Mrs", "Doctor", etc...
         /// </summary>
-        public static readonly WordBank Titles = new WordBank(Word.Title, "Titles", new TitleRepository());
+        public static readonly WordBank Titles = new ArrayBackedWordBank(new string[] {"Mister","Master","Miss","Mrs","Lady","Sir","Madam","Lord","Dr","Elder","Grandpa","Grandma","President","King","Queen","Princess","Aunt","Uncle"});
 
         /// <summary>
         /// An arbitrary list of male titles:
         /// "Master", "Sir", "Lord", etc...
         /// </summary>
-        public static readonly WordBank MaleTitles = new WordBank(Word.MaleTitle, "MaleTitles", new MaleTitleRepository());
+        public static readonly WordBank MaleTitles = new ArrayBackedWordBank(new string[10] {"Mister","Master","Sir","Lord","Dr","Elder","Grandpa","President","King","Uncle"});
+
+        /// <summary>
+        /// A list of male first names. Western origin.
+        /// </summary>
+        public static readonly WordBank MaleFirstNames = new FileBackedWordBank("male-first-names.txt", 3898);
+
+        /// <summary>
+        /// The months of the year.
+        /// </summary>
+        public static readonly WordBank Months = new ArrayBackedWordBank(new string[12] {"January","February","March","April","May","June","July","August","September","October","November","December"});
+
+        /// <summary>
+        /// The state names for all 50 U.S. states.
+        /// </summary>
+        public static readonly WordBank StateNames = new FileBackedWordBank("us-states.txt", 50);
+
+        /// <summary>
+        /// A list of occupations. Some of the job titles contain multiple words.
+        /// </summary>
+        public static readonly WordBank JobTitles = new FileBackedWordBank("job-titles.txt", 963);
+
+        /// <summary>
+        // A list of first names. All genders.
+        /// </summary>
+        public static readonly WordBank FirstNames = new FileBackedWordBank("first-names.txt", 5494);
 
         /// <summary>
         /// An arbitrary list of female titles:
         /// "Madam", "Mrs", "Grandma", etc...
         /// </summary>
-        public static readonly WordBank FemaleTitles = new WordBank(Word.FemaleTitle, "FemaleTitles", new FemaleTitleRepository());
-
-        /// <summary>
-        /// The days of the week.
-        /// </summary>
-        public static readonly WordBank Days = new WordBank(Word.Day, "Days", new DaysRepository());
+        public static readonly WordBank FemaleTitles = new ArrayBackedWordBank(new string[] {"Master","Miss","Mrs","Lady","Madam","Dr","Elder","Grandma","President","Queen","Princess","Aunt"});
 
         /// <summary>
         /// A list of female first names. Western origin.
         /// </summary>
-        public static readonly WordBank FemaleFirstNames = new WordBank(Word.FemaleFirstName, "FemaleFirstNames", new FemaleFirstNameRepository());
+        public static readonly WordBank FemaleFirstNames = new FileBackedWordBank("female-first-names.txt", 4951);
 
         /// <summary>
-        /// A list of male first names. Western origin.
+        /// The days of the week.
         /// </summary>
-        public static readonly WordBank MaleFirstNames = new WordBank(Word.MaleFirstName, "MaleFirstNames", new MaleFirstNameRepository());
+        public static readonly WordBank Days = new ArrayBackedWordBank(new string[7] {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"});
 
         /// <summary>
-        /// The months of the year.
+        /// Countries on Earth.
         /// </summary>
-        public static readonly WordBank Months = new WordBank(Word.Month, "Months", new MonthRepository());
+        public static readonly WordBank Countries = new FileBackedWordBank("countries.txt", 205);
 
         /// <summary>
-        /// The state names for all 50 U.S. states.
+        /// ~50K city names.
         /// </summary>
-        public static readonly WordBank StateNames = new WordBank(Word.StateName, "StateNames", new StateNamesRepository());
+        public static readonly WordBank Cities = new FileBackedWordBank("cities.txt", 47981);
 
         /// <summary>
-        /// A list of occupations. Some of the job titles contain multiple words.
+        /// Common and uncommon adverbs.
         /// </summary>
-        public static readonly WordBank JobTitles = new WordBank(Word.JobTitle, "JobTitles", new JobTitlesRepository());
+        public static readonly WordBank Adverbs = new FileBackedWordBank("adverbs.txt", 6251);
 
         /// <summary>
-        /// A list of countries on Earth. Likely outdated.
+        /// Common and uncommon adjectives.
         /// </summary>
-        public static readonly WordBank Countries = new WordBank(Word.Country, "Countries", new CountriesRepository());
+        public static readonly WordBank Adjectives = new FileBackedWordBank("adjectives.txt", 27320);
 
         /// <summary>
-        /// An EXPANSIVE list of cities on Earth. Contains ~50K cities.
+        /// Common and uncommon verbs.
         /// </summary>
-        public static readonly WordBank Cities = new WordBank(Word.City, "Cities", new CitiesRepository());
+        public static readonly WordBank Verbs = new FileBackedWordBank("verbs.txt", 30618);
 
-        /// <summary>
-        /// A giant list of adverbs.
-        /// </summary>
-        public static readonly WordBank Adverbs = new WordBank(Word.Adverb, "Adverbs", new AdverbsRepository());
-
-        /// <summary>
-        /// A humongous list of verbs. This is my favorite!
-        /// </summary>
-        public static readonly WordBank Verbs = new WordBank(Word.Verb, "Verbs", new VerbsRepository());
-
-
-        public WordBank(Word value, string name, WordRepository repo)
-        {
-            Name = name;
-            Value = value;
-            Repo = repo;
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public static implicit operator Word(WordBank @enum)
-        {
-            return @enum.Value;
-        }
-
-        public static implicit operator string(WordBank @enum)
-        {
-            return @enum.Name;
-        }
-
-        public string[] Get()
-        {
-            return Repo.Get();
-        }
+        internal abstract string GetWord(Random random);
     }
 }

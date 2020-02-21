@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netstandard1.0;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Colin Smith</Authors>
     <Company />
@@ -16,16 +16,71 @@
     <AssemblyVersion>1.3.1.0</AssemblyVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="adjectives.txt" />
+    <None Remove="adverbs.txt" />
+    <None Remove="cities.txt" />
+    <None Remove="countries.txt" />
+    <None Remove="female-first-names.txt" />
+    <None Remove="first-names.txt" />
+    <None Remove="job-titles.txt" />
+    <None Remove="last-names.txt" />
+    <None Remove="male-first-names.txt" />
+    <None Remove="nouns.txt" />
+    <None Remove="us-states.txt" />
+    <None Remove="verbs.txt" />
+  </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard1.0|AnyCPU'">
-    <DocumentationFile />
-  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Data\female-first-names.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.0' OR '$(TargetFramework)'=='netstandard1.3'">
-    <DefineConstants>FEATURE_TYPE_INFO</DefineConstants>
-  </PropertyGroup>  
+  <ItemGroup>
+    <Content Include="Data\adjectives.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\adverbs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\cities.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\countries.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\first-names.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\job-titles.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\last-names.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\male-first-names.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\us-states.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\verbs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\nouns.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
