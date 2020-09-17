@@ -1,8 +1,20 @@
 ﻿namespace CodenameGenerator
 {
     using System;
+    using System.Collections.Generic;
 
-    public class Generator
+    public interface IGenerator
+    {
+        string Separator { get; set; }
+        WordBank[] Parts { get; set; }
+        Casing Casing { get; set; }
+        string EndsWith { get; set; }
+        void SetParts(params WordBank[] wordBanks);
+        string Generate();
+        string[] GenerateMany(int count);
+        string GenerateUnique(IEnumerable<string> reserved);
+    }
+    public class Generator : IGenerator
     {
         private readonly Random random;
 
@@ -174,7 +186,7 @@
         /// </summary>
         /// <param name="reserved">An array of names that should not match the generated code name</param>
         /// <returns>A unique code name</returns>
-        public string GenerateUnique(string[] reserved)
+        public string GenerateUnique(IEnumerable<string> reserved)
         {
             var name = Generate();
             if (Array.Exists(reserved, element => element == name))
