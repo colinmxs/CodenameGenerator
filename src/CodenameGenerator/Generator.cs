@@ -2,25 +2,28 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public interface IGenerator
     {
         string Separator { get; set; }
-        WordBank[] Parts { get; set; }
+        IEnumerable<WordBank> Parts { get; set; }
         Casing Casing { get; set; }
         string EndsWith { get; set; }
         void SetParts(params WordBank[] wordBanks);
         string Generate();
-        string[] GenerateMany(int count);
+        IEnumerable<string> GenerateMany(int count);
         string GenerateUnique(IEnumerable<string> reserved);
     }
     public class Generator : IGenerator
     {
-        private readonly Random random;
-
+        private readonly Random _random;
         private string _separator;
+        private IEnumerable<WordBank> _parts;
+        private string _endsWith;
+
         /// <summary>
-        /// String value used to separate the different words that make up a generated code name.
+        /// String value inserted between each word.
         /// </summary>
         public string Separator
         {
@@ -35,11 +38,10 @@
             }
         }
 
-        private WordBank[] _parts;
         /// <summary>
-        /// Array of WordBanks which will be accessed sequentially (by order of array index) to provide words for code name generation.
+        /// WordBanks which will be accessed sequentially (by order of array index) to provide words for code name generation.
         /// </summary>
-        public WordBank[] Parts
+        public IEnumerable<WordBank> Parts
         {
             get
             {
@@ -57,7 +59,6 @@
         /// </summary>
         public Casing Casing { get; set; }
 
-        private string _endsWith;
         /// <summary>
         /// String value used as a suffix for the generated code name.
         /// </summary>
@@ -74,61 +75,35 @@
             }
         }
 
-        /// <summary>
-        /// Default constructor. If called w/o ctor parameters, resulting Generator object will be created with the default Parts, Separator, and Casing properties.
-        /// </summary>
-        /// <param name="separator">The Separator</param>
-        /// <param name="casing">The Casing</param>
-        /// <param name="seed">The Random Generator Seed</param>
         public Generator(string separator = " ", Casing casing = Casing.LowerCase, int? seed = null)
         {
             Parts = new WordBank[] { WordBank.Adjectives, WordBank.Nouns };
             Separator = separator;
             Casing = casing;
-            random = (seed == null) ? new Random() : new Random(seed.Value);
+            _random = (seed == null) ? new Random() : new Random(seed.Value);
             EndsWith = "";
         }
 
-        /// <summary>
-        /// Constructor offering params for specifying WordBanks.
-        /// </summary>
-        /// <param name="separator">The Separator</param>
-        /// <param name="casing">The Casing</param>
-        /// <param name="wordBanks">Comma-delimited WordBank instances</param>
-        /// <example>
-        /// new Generator("-", Casing.LowerCase, WordBank.Titles, WordBank.FirstNames, WordBank.LastNames)
-        /// </example>
         public Generator(string separator, Casing casing, params WordBank[] wordBanks) : this(separator, casing)
         {
             Parts = wordBanks;
         }
 
-        /// <summary>
-        /// params-based Setter method for the Parts property.
-        /// </summary>
-        /// <param name="wordBanks">Comma-delimited WordBank instances</param>
-        /// <example>
-        /// generator.SetParts(WordBank.Adjectives, WordBank.Nouns)
-        /// </example>
         public void SetParts(params WordBank[] wordBanks)
         {
             Parts = wordBanks;
         }                
 
-        /// <summary>
-        /// Generates a code name based on current configuration of Separator, Parts, and Casing properties.
-        /// </summary>
-        /// <returns>A code name</returns>
         public string Generate()
         {
             var name = string.Empty;
-            for (int i = 0; i < Parts.Length; i++)
+            foreach (var parts in Parts)
             {
-                var repositoryContents = Parts[i].Get();                
-                var index = random.Next(repositoryContents.Length);
-                var part = repositoryContents[index];
-                var partWords = part.Split(' ');
-                foreach (var partWord in partWords)
+                var repositoryContents = parts.Get();                
+                var index = _random.Next(repositoryContents.Length);
+                var rawWord = repositoryContents[index];
+                var splitWord = rawWord.Split(' ');
+                foreach (var partWord in splitWord)
                 {
                     var word = partWord;
                     switch (Casing)
@@ -164,12 +139,7 @@
             return name + EndsWith;
         }
 
-        /// <summary>
-        /// Generates the specified number of code names.
-        /// </summary>
-        /// <param name="count">The number of code names to generate</param>
-        /// <returns>An array of code names</returns>
-        public string[] GenerateMany(int count)
+        public IEnumerable<string> GenerateMany(int count)
         {
             var names = new string[count];
             var i = 0;
@@ -181,15 +151,10 @@
             return names;
         }        
         
-        /// <summary>
-        /// Generates a code name that does not match any of the supplied reserved names.
-        /// </summary>
-        /// <param name="reserved">An array of names that should not match the generated code name</param>
-        /// <returns>A unique code name</returns>
         public string GenerateUnique(IEnumerable<string> reserved)
         {
             var name = Generate();
-            if (Array.Exists(reserved, element => element == name))
+            if (reserved.Any(r => r == name))
             {
                 return GenerateUnique(reserved);
             }
