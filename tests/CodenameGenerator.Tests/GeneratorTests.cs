@@ -45,9 +45,9 @@ namespace CodenameGenerator.Tests
         {
             var generator = new Generator();
             Assert.IsTrue(generator.Separator == " ");
-            Assert.IsTrue(generator.Parts.Length == 2);
-            Assert.IsTrue(generator.Parts[0] == Word.Adjective);
-            Assert.IsTrue(generator.Parts[1] == Word.Noun);
+            Assert.IsTrue(generator.Parts.Count() == 2);
+            Assert.IsTrue(generator.Parts.First() == Word.Adjective);
+            Assert.IsTrue(generator.Parts.Skip(1).Take(1).Single() == Word.Noun);
             Assert.IsTrue(generator.Casing == Casing.LowerCase);
             Assert.IsTrue(generator.EndsWith == "");
         }
@@ -69,9 +69,9 @@ namespace CodenameGenerator.Tests
         public void GenerateMany(int count)
         {
             var generator = new Generator();
-            string[] results = generator.GenerateMany(count);
+            var results = generator.GenerateMany(count);
             Assert.IsNotNull(results);
-            Assert.AreEqual(count, results.Length);
+            Assert.AreEqual(count, results.Count());
             foreach (var result in results)
             {
                 Assert.AreNotEqual("", result);
@@ -120,9 +120,9 @@ namespace CodenameGenerator.Tests
         {
             var generator = new Generator();
             generator.SetParts(TestWordBank.Titles, TestWordBank.FirstNames, TestWordBank.LastNames);
-            Assert.IsTrue(generator.Parts[0] == Word.Title);
-            Assert.IsTrue(generator.Parts[1] == Word.FirstName);
-            Assert.IsTrue(generator.Parts[2] == Word.LastName);
+            Assert.IsTrue(generator.Parts.ToArray()[0] == Word.Title);
+            Assert.IsTrue(generator.Parts.ToArray()[1] == Word.FirstName);
+            Assert.IsTrue(generator.Parts.ToArray()[2] == Word.LastName);
 
             var result = generator.Generate();
             var strings = result.Split(new string[] { generator.Separator }, StringSplitOptions.RemoveEmptyEntries);
