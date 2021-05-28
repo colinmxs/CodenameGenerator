@@ -21,7 +21,7 @@ var names = generator.GenerateMany(5);
 //ex: "abyssal hotdog"
 ```
 
-### Amazing Configurations
+### Configurations
 #### Specify the separator:
 ```C#
 generator.Separator = "-"
@@ -39,7 +39,7 @@ var name = generator.Generate(); // ex: "RAMBUNCTIOUS ARTHROPOD"
 ```
 #### Specify a suffix 
 ```C#
-generator.EndsWith = "@gmail.com";
+generator.EndsWith = "@email.com";
 generator.Separator = ""; //no separator
 var name = generator.Generate(); // ex: "rambunctiousarthropod@gmail.com"
 ```
