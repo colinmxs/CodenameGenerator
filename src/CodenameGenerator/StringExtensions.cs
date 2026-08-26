@@ -1,21 +1,24 @@
-using System;
-
 namespace CodenameGenerator
 {
+    using System;
+
     internal static class StringExtensions
     {
-        //http://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-for-maximum-performance
         /// <summary>
-        /// Capitalize the first character of a string
+        /// Returns the string with its first character upper-cased, using the
+        /// invariant culture so results do not vary by locale.
         /// </summary>
-        /// <param name="string"></param>
-        /// <returns></returns>
-        internal static string FirstCharToUpper(this string @string)
+        /// <param name="value">The string to capitalize. May be null or empty.</param>
+        /// <returns>The capitalized string, or the input unchanged if null or empty.</returns>
+        internal static string FirstCharToUpper(this string value)
         {
-            if (String.IsNullOrEmpty(@string))
-                throw new ArgumentException("There is no first letter");
-            char[] chars = @string.ToCharArray();
-            chars[0] = char.ToUpper(chars[0]);
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            var chars = value.ToCharArray();
+            chars[0] = char.ToUpperInvariant(chars[0]);
             return new string(chars);
         }
     }

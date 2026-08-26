@@ -1,20 +1,16 @@
-﻿namespace CodenameGenerator.WordRepos
+namespace CodenameGenerator.WordRepos
 {
+    /// <summary>
+    /// An arbitrary list of male titles.
+    /// </summary>
     public class MaleTitleRepository : WordRepository
     {
-        public MaleTitleRepository() : base(
-            new string[] 
-            {
-                "Mister",
-                "Master",
-                "Sir",
-                "Lord",
-                "Dr",
-                "Elder",
-                "Grandpa",
-                "President",
-                "King",
-                "Uncle"
-            }) { }
+        /// <summary>
+        /// Creates the repository. The word list is loaded from an embedded
+        /// resource on first use, not when this instance is created.
+        /// </summary>
+        public MaleTitleRepository() : base(() => WordData.Load("MaleTitles"))
+        {
+        }
     }
 }

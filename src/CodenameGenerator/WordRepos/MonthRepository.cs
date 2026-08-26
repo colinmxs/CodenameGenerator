@@ -1,20 +1,16 @@
-﻿namespace CodenameGenerator.WordRepos
+namespace CodenameGenerator.WordRepos
 {
+    /// <summary>
+    /// The months of the year.
+    /// </summary>
     public class MonthRepository : WordRepository
     {
-        public MonthRepository() : base(
-            new string[] {
-                "January",
-                "February",
-                "March",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            }) { }
+        /// <summary>
+        /// Creates the repository. The word list is loaded from an embedded
+        /// resource on first use, not when this instance is created.
+        /// </summary>
+        public MonthRepository() : base(() => WordData.Load("Months"))
+        {
+        }
     }
 }

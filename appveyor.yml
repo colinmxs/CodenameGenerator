@@ -1,5 +1,5 @@
-version: 1.2.{build}
-image: Visual Studio 2017
+version: 2.0.{build}
+image: Visual Studio 2022
 environment:
   api_key:
     secure: ypTf4wndO2Qd15JcOvncsnV8APna69YxVOvQLdkWrtguZUBa8TZlq47Qy+HMt7PT
@@ -16,20 +16,20 @@ build_script:
 
     $xmlPath = "$env:appveyor_build_folder\src\CodenameGenerator\CodenameGenerator.csproj"
 
-    $xml = [xml](get-content $xmlPath)
+    $xml = [xml](Get-Content $xmlPath)
 
-    $propertyGroup = $xml.Project.PropertyGroup[0]
+    $version = $xml.SelectSingleNode('//Version')
 
-    $propertyGroup.Version = $env:appveyor_build_version
+    if (-not $version) { throw "No <Version> element found in $xmlPath" }
+
+    $version.InnerText = $env:appveyor_build_version
 
     $xml.Save($xmlPath)
 
     dotnet build -c Release
 test_script:
 - ps: >-
-    cd tests/codenamegenerator.tests
-
-    dotnet test -c Release --no-build
+    dotnet test tests/CodenameGenerator.Tests -c Release --no-build
 on_success:
 - ps: >-
     if(!$env:APPVEYOR_PULL_REQUEST_NUMBER)

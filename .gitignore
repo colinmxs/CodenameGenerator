@@ -214,3 +214,5 @@ __pycache__/
 
 #Mac OSX 
 .DS_Store
+# Container build output (docker build --target pack -o out .)
+out/

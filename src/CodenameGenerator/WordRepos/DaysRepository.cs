@@ -1,15 +1,16 @@
-﻿namespace CodenameGenerator.WordRepos
+namespace CodenameGenerator.WordRepos
 {
+    /// <summary>
+    /// The days of the week.
+    /// </summary>
     public class DaysRepository : WordRepository
     {
-        public DaysRepository() : base(
-            new string[] {
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"}) { }
+        /// <summary>
+        /// Creates the repository. The word list is loaded from an embedded
+        /// resource on first use, not when this instance is created.
+        /// </summary>
+        public DaysRepository() : base(() => WordData.Load("Days"))
+        {
+        }
     }
 }

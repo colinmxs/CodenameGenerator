@@ -1,28 +1,16 @@
-﻿namespace CodenameGenerator.WordRepos
+namespace CodenameGenerator.WordRepos
 {
+    /// <summary>
+    /// An arbitrary list of titles, all genders.
+    /// </summary>
     public class TitleRepository : WordRepository
     {
-        internal TitleRepository() : base(
-            new string[] 
-            {
-                "Mister",
-                "Master",
-                "Miss",
-                "Mrs",
-                "Lady",
-                "Sir",
-                "Madam",
-                "Lord",
-                "Dr",
-                "Elder",
-                "Grandpa",
-                "Grandma",
-                "President",
-                "King",
-                "Queen",
-                "Princess",
-                "Aunt",
-                "Uncle"
-            }) { }
+        /// <summary>
+        /// Creates the repository. The word list is loaded from an embedded
+        /// resource on first use, not when this instance is created.
+        /// </summary>
+        public TitleRepository() : base(() => WordData.Load("Titles"))
+        {
+        }
     }
 }

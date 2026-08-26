@@ -1,198 +1,270 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
-
 namespace CodenameGenerator.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class WordBankTests
     {
         [TestMethod]
-        public void WordBanks()
+        public void All_ExposesEveryBuiltInBank()
         {
-            var nouns = WordBank.Nouns;
-            var adjectives = WordBank.Adjectives;
-            var firstNames = WordBank.FirstNames;
-            var lastNames = WordBank.LastNames;
-            var titles = WordBank.Titles;
-            var femaleTitles = WordBank.FemaleTitles;
-            var maleTitles = WordBank.MaleTitles;
-            var stateNames = WordBank.StateNames;
-            var days = WordBank.Days;
-            var femaleFirstNames = WordBank.FemaleFirstNames;
-            var maleFirstNames = WordBank.MaleFirstNames;
-            var months = WordBank.Months;
-            var jobTitles = WordBank.JobTitles;
+            Assert.AreEqual(17, WordBank.All.Count);
+            CollectionAssert.AllItemsAreNotNull(WordBank.All.ToArray());
+            CollectionAssert.AllItemsAreUnique(WordBank.All.ToArray());
+            Assert.IsTrue(WordBank.All.Contains(WordBank.Nouns));
         }
+
         [TestMethod]
-        public void Nouns()
+        public void All_CoversEveryWordCategory()
         {
-            var nounBank = WordBank.Nouns;
-            string[] nouns = nounBank.Get();
-            Assert.IsNotNull(nouns);
-            //lol
-            Assert.IsTrue(!nouns.Contains("dilapidated"));
-            Assert.IsTrue(nouns.Contains("dog"));
+            var covered = WordBank.All.Select(bank => (Word)bank).Distinct().OrderBy(w => w).ToArray();
+            var declared = ((Word[])Enum.GetValues(typeof(Word))).OrderBy(w => w).ToArray();
+            CollectionAssert.AreEqual(declared, covered);
         }
-        [TestMethod]        
-        public void Adjectives()
-        {
-            var adjectiveBank = WordBank.Adjectives;
-            string[] adjectives = adjectiveBank.Get();
-            Assert.IsNotNull(adjectives);
-            //lol
-            Assert.IsTrue(adjectives.Contains("dirty"));
-            Assert.IsTrue(!adjectives.Contains("hospital"));
-        }
+
+        /// <summary>
+        /// Every built-in bank must load from its embedded resource and contain
+        /// clean, usable words.
+        /// </summary>
         [TestMethod]
-        public void FirstNames()
+        public void All_LoadUsableWords()
         {
-            var firstNamesBank = WordBank.FirstNames;
-            string[] firstNames = firstNamesBank.Get();
-            Assert.IsNotNull(firstNames);
-            //lol
-            Assert.IsTrue(firstNames.Contains("Dan"));
-            Assert.IsTrue(!firstNames.Contains("horse"));
+            foreach (var bank in WordBank.All)
+            {
+                var words = bank.Get();
+                Assert.IsNotNull(words, bank + " returned null");
+                Assert.IsTrue(words.Length > 0, bank + " is empty");
+
+                foreach (var word in words)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(word), bank + " contains a blank word");
+                    Assert.AreEqual(word.Trim(), word, bank + " contains padded word: '" + word + "'");
+                }
+            }
         }
+
         [TestMethod]
-        public void LastNames()
+        public void All_ContainTheExpectedNumberOfWords()
         {
-            var lastNamesBank = WordBank.LastNames;
-            string[] lastNames = lastNamesBank.Get();
-            Assert.IsNotNull(lastNames);
-            //lol
-            Assert.IsTrue(lastNames.Contains("Smith"));
-            Assert.IsTrue(!lastNames.Contains("hospital"));
+            var total = WordBank.All.Sum(bank => bank.Get().Length);
+            Assert.AreEqual(298738, total, "the bundled word lists changed size");
         }
+
         [TestMethod]
-        public void Titles()
+        public void Get_CachesTheWordList()
         {
-            var titlesBank = WordBank.Titles;
-            string[] titles = titlesBank.Get();
-            Assert.IsNotNull(titles);
-            //lol
-            Assert.IsTrue(titles.Contains("Mister"));
-            Assert.IsTrue(!titles.Contains("hospital"));
+            Assert.AreSame(WordBank.Days.Get(), WordBank.Days.Get());
         }
+
         [TestMethod]
-        public void MaleTitles()
+        public void Repository_LoadsLazilyAndOnlyOnce()
         {
-            var titlesBank = WordBank.MaleTitles;
-            string[] titles = titlesBank.Get();
-            Assert.IsNotNull(titles);
-            //lol
-            Assert.IsTrue(titles.Contains("Mister"));
-            Assert.IsTrue(!titles.Contains("Mrs"));
+            var repo = CountingRepository.Create("dog", "cat");
+            Assert.AreEqual(0, repo.Loads, "constructing a repository must not load its words");
+
+            var words = repo.Get();
+            Assert.AreEqual(1, repo.Loads);
+            Assert.AreEqual(2, words.Length);
+
+            repo.Get();
+            Assert.AreEqual(1, repo.Loads, "words should be cached after the first load");
         }
+
         [TestMethod]
-        public void FemaleTitles()
+        public void Repository_NullWords_Throws()
         {
-            var titlesBank = WordBank.FemaleTitles;
-            string[] titles = titlesBank.Get();
-            Assert.IsNotNull(titles);
-            //lol
-            Assert.IsTrue(titles.Contains("Mrs"));
-            Assert.IsTrue(!titles.Contains("Mister"));
+            Assert.ThrowsException<ArgumentNullException>(() => new WordRepository(null!));
         }
+
         [TestMethod]
-        public void Days()
+        public void ToString_IsTheBankName()
         {
-            var daysBank = WordBank.Days;
-            string[] days = daysBank.Get();
-            Assert.IsNotNull(days);
-            Assert.IsTrue(days.Contains("Monday"));
-            Assert.IsTrue(!days.Contains("January"));
+            Assert.AreEqual("Nouns", WordBank.Nouns.ToString());
+            Assert.AreEqual("JobTitles", WordBank.JobTitles.ToString());
         }
-        [TestMethod]
-        public void Months()
-        {
-            var monthsBank = WordBank.Months;
-            string[] months = monthsBank.Get();
-            Assert.IsNotNull(months);
-            Assert.IsTrue(!months.Contains("Monday"));
-            Assert.IsTrue(months.Contains("January"));
-        }
-        [TestMethod]
-        public void StateNames()
-        {
-            var stateNames = WordBank.StateNames;
-            string[] states = stateNames.Get();
-            Assert.IsNotNull(states);
-            Assert.IsTrue(states.Contains("Idaho"));
-            Assert.IsTrue(!states.Contains("Boise"));
-        }
-        [TestMethod]
-        public void FemaleFirstNames()
-        {
-            var femaleFirstNamesBank = WordBank.FemaleFirstNames;
-            string[] names = femaleFirstNamesBank.Get();
-            Assert.IsNotNull(names);
-            Assert.IsTrue(names.Contains("Sarah"));
-            Assert.IsTrue(!names.Contains("Robert"));
-        }
-        [TestMethod]
-        public void MaleFirstNames()
-        {
-            var maleFirstNameBank = WordBank.MaleFirstNames;
-            string[] names = maleFirstNameBank.Get();
-            Assert.IsNotNull(names);
-            Assert.IsTrue(names.Contains("Robert"));
-            Assert.IsTrue(!names.Contains("Sarah"));
-        }
-        [TestMethod]
-        public void JobTitles()
-        {
-            var jobTitles = WordBank.JobTitles;
-            string[] jobs = jobTitles.Get();
-            Assert.IsNotNull(jobs);
-            Assert.IsTrue(jobs.Contains("Accountant"));
-            Assert.IsTrue(!jobs.Contains("weathered"));
-        }
-        [TestMethod]
-        public void Cities()
-        {
-            var citiesBank = WordBank.Cities;
-            string[] cities = citiesBank.Get();
-            Assert.IsNotNull(cities);
-            Assert.IsTrue(cities.Contains("chicago"));
-            Assert.IsTrue(!cities.Contains("chile"));
-        }
-        [TestMethod]
-        public void Countries()
-        {
-             var countriesBank = WordBank.Countries;
-            string[] countries = countriesBank.Get();
-            Assert.IsNotNull(countries);
-            Assert.IsTrue(countries.Contains("United States"));
-            Assert.IsTrue(!countries.Contains("Chicago"));
-        }
-        [TestMethod]
-        public void Adverbs()
-        {
-            var adverbsBank = WordBank.Adverbs;
-            string[] adverbs = adverbsBank.Get();
-            Assert.IsNotNull(adverbs);
-            Assert.IsTrue(adverbs.Contains("delicately"));
-            Assert.IsTrue(!adverbs.Contains("urinate"));
-        }
-        [TestMethod]
-        public void Verbs()
-        {
-            var verbsBank = WordBank.Verbs;
-            string[] verbs = verbsBank.Get();
-            Assert.IsNotNull(verbs);
-            Assert.IsTrue(verbs.Contains("urinate"));
-            Assert.IsTrue(!verbs.Contains("delicately"));
-        }
+
         [TestMethod]
         public void ImplicitOperatorTests()
         {
-            var word = Word.Noun;
-            var wordBank = WordBank.Nouns;
-            Assert.IsTrue(word == wordBank);
+            Word word = WordBank.Nouns;
+            Assert.AreEqual(Word.Noun, word);
 
-            var word1 = "Adjectives";
-            var wordBank1 = WordBank.Adjectives;
-            Assert.IsTrue(word1 == wordBank1);
+            string name = WordBank.Adjectives;
+            Assert.AreEqual("Adjectives", name);
+        }
+
+        [TestMethod]
+        public void Nouns()
+        {
+            var nouns = WordBank.Nouns.Get();
+            Assert.IsTrue(nouns.Contains("dog"));
+            Assert.IsFalse(nouns.Contains("dilapidated"));
+        }
+
+        [TestMethod]
+        public void Adjectives()
+        {
+            var adjectives = WordBank.Adjectives.Get();
+            Assert.IsTrue(adjectives.Contains("dirty"));
+            Assert.IsFalse(adjectives.Contains("hospital"));
+        }
+
+        [TestMethod]
+        public void FirstNames()
+        {
+            var firstNames = WordBank.FirstNames.Get();
+            Assert.IsTrue(firstNames.Contains("Dan"));
+            Assert.IsFalse(firstNames.Contains("horse"));
+        }
+
+        [TestMethod]
+        public void LastNames()
+        {
+            var lastNames = WordBank.LastNames.Get();
+            Assert.IsTrue(lastNames.Contains("Smith"));
+            Assert.IsFalse(lastNames.Contains("hospital"));
+        }
+
+        [TestMethod]
+        public void Titles()
+        {
+            var titles = WordBank.Titles.Get();
+            Assert.IsTrue(titles.Contains("Mister"));
+            Assert.IsFalse(titles.Contains("hospital"));
+        }
+
+        [TestMethod]
+        public void MaleTitles()
+        {
+            var titles = WordBank.MaleTitles.Get();
+            Assert.IsTrue(titles.Contains("Mister"));
+            Assert.IsFalse(titles.Contains("Mrs"));
+        }
+
+        [TestMethod]
+        public void FemaleTitles()
+        {
+            var titles = WordBank.FemaleTitles.Get();
+            Assert.IsTrue(titles.Contains("Mrs"));
+            Assert.IsFalse(titles.Contains("Mister"));
+        }
+
+        [TestMethod]
+        public void Days()
+        {
+            var days = WordBank.Days.Get();
+            CollectionAssert.AreEqual(
+                new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" },
+                days);
+        }
+
+        /// <summary>
+        /// The bundled list was missing April until v2.0.0.
+        /// </summary>
+        [TestMethod]
+        public void Months()
+        {
+            var months = WordBank.Months.Get();
+            CollectionAssert.AreEqual(
+                new[]
+                {
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December",
+                },
+                months);
+        }
+
+        [TestMethod]
+        public void StateNames()
+        {
+            var states = WordBank.StateNames.Get();
+            Assert.AreEqual(50, states.Length);
+            Assert.IsTrue(states.Contains("Idaho"));
+            Assert.IsFalse(states.Contains("Boise"));
+        }
+
+        [TestMethod]
+        public void FemaleFirstNames()
+        {
+            var names = WordBank.FemaleFirstNames.Get();
+            Assert.IsTrue(names.Contains("Sarah"));
+            Assert.IsFalse(names.Contains("Robert"));
+        }
+
+        [TestMethod]
+        public void MaleFirstNames()
+        {
+            var names = WordBank.MaleFirstNames.Get();
+            Assert.IsTrue(names.Contains("Robert"));
+            Assert.IsFalse(names.Contains("Sarah"));
+        }
+
+        [TestMethod]
+        public void JobTitles()
+        {
+            var jobs = WordBank.JobTitles.Get();
+            Assert.IsTrue(jobs.Contains("Accountant"));
+            Assert.IsFalse(jobs.Contains("weathered"));
+        }
+
+        [TestMethod]
+        public void Cities()
+        {
+            var cities = WordBank.Cities.Get();
+            Assert.IsTrue(cities.Contains("chicago"));
+            Assert.IsFalse(cities.Contains("chile"));
+        }
+
+        [TestMethod]
+        public void Countries()
+        {
+            var countries = WordBank.Countries.Get();
+            Assert.IsTrue(countries.Contains("United States"));
+            Assert.IsFalse(countries.Contains("Chicago"));
+        }
+
+        [TestMethod]
+        public void Adverbs()
+        {
+            var adverbs = WordBank.Adverbs.Get();
+            Assert.IsTrue(adverbs.Contains("delicately"));
+            Assert.IsFalse(adverbs.Contains("urinate"));
+        }
+
+        [TestMethod]
+        public void Verbs()
+        {
+            var verbs = WordBank.Verbs.Get();
+            Assert.IsTrue(verbs.Contains("urinate"));
+            Assert.IsFalse(verbs.Contains("delicately"));
+        }
+
+        /// <summary>
+        /// Punctuation and multi-word entries must survive the round trip through the
+        /// line-delimited embedded resources. The bundled lists are ASCII-only, which
+        /// this also pins: a non-ASCII word appearing would mean an encoding problem.
+        /// </summary>
+        [TestMethod]
+        public void WordLists_RoundTripPunctuationAndSpacing()
+        {
+            Assert.IsTrue(WordBank.Verbs.Get().Contains("bird's-nest"), "apostrophe + hyphen entry missing");
+            Assert.IsTrue(WordBank.Adverbs.Get().Contains("above-board"), "hyphenated entry missing");
+            Assert.IsTrue(WordBank.Countries.Get().Contains("United States"), "multi-word entry missing");
+            Assert.IsTrue(WordBank.JobTitles.Get().Contains("Electro-Mechanical Technicians"), "mixed entry missing");
+
+            foreach (var bank in WordBank.All)
+            {
+                foreach (var word in bank.Get())
+                {
+                    foreach (var ch in word)
+                    {
+                        Assert.IsTrue(ch < 128, bank + " has a non-ASCII character in '" + word + "'");
+                    }
+                }
+            }
         }
     }
 }

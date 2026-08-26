@@ -1,31 +1,55 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-
 namespace CodenameGenerator.Tests
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class GeneratorTests
     {
         [TestMethod]
         public void CTorTests()
         {
-            var @char = '-';
-            var separator = @char.ToString();
+            var separator = "-";
             var casing = Casing.PascalCase;
+
             var generator = new Generator(separator, casing);
-            Assert.IsTrue(generator.Separator == "-");
-            Assert.IsTrue(generator.Casing == casing);
+            Assert.AreEqual("-", generator.Separator);
+            Assert.AreEqual(casing, generator.Casing);
 
             generator = new Generator(separator, casing, WordBank.FirstNames, WordBank.LastNames);
-            Assert.IsTrue(generator.Separator == "-");
-            Assert.IsTrue(generator.Casing == casing);
-            var name = generator.Generate();
-            var parts = name.Split(@char);
-            Assert.IsTrue(parts.Length == 2);            
+            Assert.AreEqual("-", generator.Separator);
+            Assert.AreEqual(casing, generator.Casing);
+
+            var parts = generator.Generate().Split('-');
+            Assert.AreEqual(2, parts.Length);
             Assert.IsTrue(WordBank.FirstNames.Get().Contains(parts[0]));
             Assert.IsTrue(WordBank.LastNames.Get().Contains(parts[1]));
+        }
+
+        [TestMethod]
+        public void Defaults()
+        {
+            var generator = new Generator();
+            Assert.AreEqual(" ", generator.Separator);
+            Assert.AreEqual(2, generator.Parts.Length);
+            Assert.IsTrue(generator.Parts[0] == Word.Adjective);
+            Assert.IsTrue(generator.Parts[1] == Word.Noun);
+            Assert.AreEqual(Casing.LowerCase, generator.Casing);
+            Assert.AreEqual("", generator.EndsWith);
+        }
+
+        [TestMethod]
+        public void Generate()
+        {
+            var generator = new Generator();
+            var result = generator.Generate();
+            Assert.IsNotNull(result);
+            Assert.AreNotEqual("", result);
         }
 
         [TestMethod]
@@ -34,42 +58,28 @@ namespace CodenameGenerator.Tests
         [DataRow(int.MaxValue)]
         public void SeededTests(int seed)
         {
-            var generator = new Generator(seed: seed);
-            string result = generator.Generate();
-            generator = new Generator(seed: seed);
-            Assert.IsTrue(result == generator.Generate());
+            var first = new Generator(seed: seed);
+            var second = new Generator(seed: seed);
+            Assert.AreEqual(first.Generate(), second.Generate());
         }
 
         [TestMethod]
-        public void Defaults()
+        public void Seeded_ProducesTheSameSequence()
         {
-            var generator = new Generator();
-            Assert.IsTrue(generator.Separator == " ");
-            Assert.IsTrue(generator.Parts.Length == 2);
-            Assert.IsTrue(generator.Parts[0] == Word.Adjective);
-            Assert.IsTrue(generator.Parts[1] == Word.Noun);
-            Assert.IsTrue(generator.Casing == Casing.LowerCase);
-            Assert.IsTrue(generator.EndsWith == "");
+            var first = new Generator(seed: 42).GenerateMany(25);
+            var second = new Generator(seed: 42).GenerateMany(25);
+            CollectionAssert.AreEqual(first, second);
         }
 
         [TestMethod]
-        public void Generate()
-        {
-            var generator = new Generator();
-            string result = generator.Generate();
-            Assert.IsNotNull(result);
-            Assert.AreNotEqual("", result);
-        }
-
-        [TestMethod]
+        [DataRow(0)]
         [DataRow(1)]
         [DataRow(2)]
         [DataRow(4)]
         [DataRow(8)]
         public void GenerateMany(int count)
         {
-            var generator = new Generator();
-            string[] results = generator.GenerateMany(count);
+            var results = new Generator().GenerateMany(count);
             Assert.IsNotNull(results);
             Assert.AreEqual(count, results.Length);
             foreach (var result in results)
@@ -77,7 +87,14 @@ namespace CodenameGenerator.Tests
                 Assert.AreNotEqual("", result);
             }
         }
-        
+
+        [TestMethod]
+        public void GenerateMany_NegativeCount_Throws()
+        {
+            var generator = new Generator();
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => generator.GenerateMany(-1));
+        }
+
         [TestMethod]
         [DataRow("-")]
         [DataRow("_")]
@@ -86,8 +103,7 @@ namespace CodenameGenerator.Tests
         {
             var generator = new Generator();
             generator.Separator = separator;
-            string result = generator.Generate();
-            Assert.IsTrue(result.Contains(separator.ToString()));
+            Assert.IsTrue(generator.Generate().Contains(separator));
         }
 
         [TestMethod]
@@ -98,12 +114,11 @@ namespace CodenameGenerator.Tests
         {
             var generator = new Generator();
             generator.Separator = separator;
-            var results = generator.GenerateMany(count);
-            foreach (var result in results)
+            foreach (var result in generator.GenerateMany(count))
             {
-                Assert.IsTrue(result.Contains(separator.ToString()));
+                Assert.IsTrue(result.Contains(separator));
             }
-        }        
+        }
 
         [TestMethod]
         public void Generate_SetEndsWith()
@@ -111,8 +126,7 @@ namespace CodenameGenerator.Tests
             var generator = new Generator();
             var emailSuffix = "@gmail.com";
             generator.EndsWith = emailSuffix;
-            var result = generator.Generate();
-            Assert.IsTrue(result.EndsWith(emailSuffix));
+            Assert.IsTrue(generator.Generate().EndsWith(emailSuffix, StringComparison.Ordinal));
         }
 
         [TestMethod]
@@ -124,71 +138,222 @@ namespace CodenameGenerator.Tests
             Assert.IsTrue(generator.Parts[1] == Word.FirstName);
             Assert.IsTrue(generator.Parts[2] == Word.LastName);
 
-            var result = generator.Generate();
-            var strings = result.Split(new string[] { generator.Separator }, StringSplitOptions.RemoveEmptyEntries);
-            Assert.IsTrue(strings.Length == 3);
+            var strings = generator.Generate().Split(
+                new string[] { generator.Separator }, StringSplitOptions.RemoveEmptyEntries);
+            Assert.AreEqual(3, strings.Length);
             Assert.IsTrue(strings[0] == "aunt" || strings[0] == "uncle");
             Assert.IsTrue(strings[1] == "david" || strings[1] == "roger");
             Assert.IsTrue(strings[2] == "smith" || strings[2] == "jones");
-        }        
+        }
+
+        /// <summary>
+        /// A word bank entry may itself contain spaces; the separator is applied
+        /// between those sub-words too. Pinning this documented behaviour.
+        /// </summary>
+        [TestMethod]
+        public void Generate_MultiWordPart_SeparatesEveryWord()
+        {
+            var generator = new Generator("-");
+            generator.SetParts(TestWordBank.JobTitles);
+            var result = generator.Generate();
+            Assert.IsTrue(
+                result == "airline-traffic-controller" || result == "hospital-man",
+                "unexpected result: " + result);
+        }
 
         [TestMethod]
         [DataRow("cat dog")]
         [DataRow("dog cat")]
         [DataRow("cat cat")]
-        [DataRow("dog dog")]        
+        [DataRow("dog dog")]
         public void GenerateUnique(string reserved)
         {
             var generator = new Generator();
             generator.SetParts(TestWordBank.Nouns);
-            var result = generator.GenerateUnique(new string[] { reserved });
-            Assert.AreNotEqual(reserved, result);
+            Assert.AreNotEqual(reserved, generator.GenerateUnique(new string[] { reserved }));
+        }
+
+        [TestMethod]
+        public void GenerateUnique_AvoidsEveryReservedName()
+        {
+            var generator = new Generator();
+            generator.SetParts(TestWordBank.Nouns);
+            var result = generator.GenerateUnique(new string[] { "dog" });
+            Assert.AreEqual("cat", result);
+        }
+
+        [TestMethod]
+        public void GenerateUnique_NoNamesLeft_Throws()
+        {
+            // Two possible names, both reserved. This used to recurse until the
+            // process died; now it gives up and explains why.
+            var generator = new Generator();
+            generator.SetParts(TestWordBank.Nouns);
+            var ex = Assert.ThrowsException<InvalidOperationException>(
+                () => generator.GenerateUnique(new string[] { "dog", "cat" }));
+            Assert.IsTrue(ex.Message.Contains("reserved"), "unexpected message: " + ex.Message);
+        }
+
+        [TestMethod]
+        public void GenerateUnique_NullOrEmptyReserved_Generates()
+        {
+            var generator = new Generator();
+            generator.SetParts(TestWordBank.Nouns);
+            Assert.AreNotEqual("", generator.GenerateUnique(null!));
+            Assert.AreNotEqual("", generator.GenerateUnique(new string[0]));
         }
 
         [TestMethod]
         public void CasingEnum()
         {
-            var pascalCase = Casing.PascalCase;
-            var camelCase = Casing.CamelCase;
-            var upperCase = Casing.UpperCase;
-            var lowerCase = Casing.LowerCase;
+            CollectionAssert.AreEquivalent(
+                new[] { Casing.CamelCase, Casing.PascalCase, Casing.UpperCase, Casing.LowerCase },
+                (Casing[])Enum.GetValues(typeof(Casing)));
         }
 
         [TestMethod]
-        public void Generate_SetCasing()
+        [DataRow(Casing.PascalCase, "AirlineTrafficController", "HospitalMan")]
+        [DataRow(Casing.CamelCase, "airlineTrafficController", "hospitalMan")]
+        [DataRow(Casing.UpperCase, "AIRLINETRAFFICCONTROLLER", "HOSPITALMAN")]
+        [DataRow(Casing.LowerCase, "airlinetrafficcontroller", "hospitalman")]
+        public void Generate_SetCasing(Casing casing, string first, string second)
         {
-            var generator = new Generator();
-            generator.Separator = "";
-            generator.Casing = (Casing.PascalCase);
-            generator.SetParts(TestWordBank.JobTitles, WordBank.FirstNames);
+            var generator = new Generator(string.Empty, casing);
+            generator.SetParts(TestWordBank.JobTitles);
             var result = generator.Generate();
-            var regex = @"^[A-Z][a-z]+([A-Z][a-z]+)+$";
-            Assert.IsTrue(Regex.IsMatch(result, regex));
+            Assert.IsTrue(result == first || result == second, "unexpected result: " + result);
+        }
 
-            generator.Casing = (Casing.CamelCase);
-            result = generator.Generate();
-            regex = @"^([a-z][a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*";
-            Assert.IsTrue(Regex.IsMatch(result, regex));
-
-            generator.Casing = (Casing.UpperCase);
-            result = generator.Generate();
-            regex = @"[A-Z]";
-            Assert.IsTrue(Regex.IsMatch(result, regex));
-
-            generator.Casing = Casing.LowerCase;
-            result = generator.Generate();
-            regex = @"[a-z]";
-            Assert.IsTrue(Regex.IsMatch(result, regex));
+        /// <summary>
+        /// Casing must not depend on the ambient culture. Under tr-TR the
+        /// culture-sensitive ToLower/ToUpper produce dotless and dotted I.
+        /// </summary>
+        [TestMethod]
+        [DataRow(Casing.LowerCase, "ISTANBUL", "istanbul")]
+        [DataRow(Casing.UpperCase, "istanbul", "ISTANBUL")]
+        public void Generate_Casing_IsCultureInvariant(Casing casing, string word, string expected)
+        {
+            var originalCulture = CultureInfo.CurrentCulture;
+            try
+            {
+                CultureInfo.CurrentCulture = new CultureInfo("tr-TR");
+                var bank = new WordBank(Word.Noun, "Turkish", new WordRepository(new[] { word }));
+                var generator = new Generator(string.Empty, casing);
+                generator.SetParts(bank);
+                Assert.AreEqual(expected, generator.Generate());
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = originalCulture;
+            }
         }
 
         [TestMethod]
         public void HandleNulls()
         {
             var generator = new Generator();
-            generator.Separator = null;            
-            generator.EndsWith = null;
-            generator.Parts = null;            
-            generator.Generate();
+            generator.Separator = null!;
+            generator.EndsWith = null!;
+            generator.Parts = null!;
+
+            Assert.AreEqual("", generator.Separator);
+            Assert.AreEqual("", generator.EndsWith);
+            Assert.AreEqual(0, generator.Parts.Length);
+            Assert.AreEqual("", generator.Generate());
+        }
+
+        /// <summary>
+        /// No parts plus a non-empty separator used to throw
+        /// ArgumentOutOfRangeException while trimming the trailing separator.
+        /// </summary>
+        [TestMethod]
+        public void Generate_NoParts_ReturnsSuffixOnly()
+        {
+            var generator = new Generator("-");
+            generator.SetParts();
+            Assert.AreEqual("", generator.Generate());
+
+            generator.EndsWith = "@example.com";
+            Assert.AreEqual("@example.com", generator.Generate());
+        }
+
+        [TestMethod]
+        public void Generate_EmptyWordBank_ThrowsWithBankName()
+        {
+            var generator = new Generator();
+            generator.SetParts(TestWordBank.Empty);
+            var ex = Assert.ThrowsException<InvalidOperationException>(() => generator.Generate());
+            Assert.IsTrue(ex.Message.Contains("Empty"), "unexpected message: " + ex.Message);
+        }
+
+        /// <summary>
+        /// An unseeded generator must be usable concurrently. Sharing one
+        /// non-thread-safe Random used to corrupt its internal state, after which
+        /// every draw returned index 0.
+        /// </summary>
+        [TestMethod]
+        public void Generate_Unseeded_IsThreadSafe()
+        {
+            var generator = new Generator();
+            generator.SetParts(TestWordBank.Nouns);
+
+            var results = new ConcurrentBag<string>();
+            var failures = new ConcurrentBag<Exception>();
+
+            Parallel.For(0, 20000, _ =>
+            {
+                try
+                {
+                    results.Add(generator.Generate());
+                }
+                catch (Exception ex)
+                {
+                    failures.Add(ex);
+                }
+            });
+
+            Assert.AreEqual(0, failures.Count, "threw: " + string.Join("; ", failures.Select(f => f.Message)));
+            Assert.AreEqual(20000, results.Count);
+
+            var distinct = new HashSet<string>(results, StringComparer.Ordinal);
+            Assert.IsTrue(
+                distinct.SetEquals(new[] { "dog", "cat" }),
+                "expected both words across 20000 concurrent draws, got: " + string.Join(",", distinct));
+        }
+
+        /// <summary>
+        /// Changing configuration while another thread generates must not produce a
+        /// torn result: each Generate() call works from a snapshot.
+        /// </summary>
+        [TestMethod]
+        public void Generate_ConfigurationChangedConcurrently_DoesNotTear()
+        {
+            var generator = new Generator(string.Empty);
+            generator.SetParts(TestWordBank.Nouns);
+            var allowed = new HashSet<string>(new[] { "dog", "cat", "hairy", "dirty" }, StringComparer.Ordinal);
+            var failures = new ConcurrentBag<string>();
+
+            Parallel.Invoke(
+                () =>
+                {
+                    for (var i = 0; i < 5000; i++)
+                    {
+                        generator.SetParts(i % 2 == 0 ? TestWordBank.Nouns : TestWordBank.Adjectives);
+                    }
+                },
+                () =>
+                {
+                    for (var i = 0; i < 5000; i++)
+                    {
+                        var result = generator.Generate();
+                        if (!allowed.Contains(result))
+                        {
+                            failures.Add(result);
+                        }
+                    }
+                });
+
+            Assert.AreEqual(0, failures.Count, "unexpected results: " + string.Join(",", failures.Distinct()));
         }
     }
 }

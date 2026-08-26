@@ -1,0 +1,13 @@
+# Build context is streamed over SSH to the remote daemon -- keep it tight.
+.git/
+.kiro/
+**/bin/
+**/obj/
+_build/
+_site/
+.vs/
+.vscode/
+*.nupkg
+*.user
+*.suo
+*.log

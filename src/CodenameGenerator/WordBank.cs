@@ -1,12 +1,28 @@
-﻿using CodenameGenerator.WordRepos;
-
 namespace CodenameGenerator
-{    
-    //http://stackoverflow.com/questions/38855909/alternative-to-enum-in-design-pattern
+{
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using CodenameGenerator.WordRepos;
+
+    /// <summary>
+    /// A named source of words for code name generation. Behaves like an extensible
+    /// enum: use one of the built-in static instances, or create your own over a
+    /// custom <see cref="WordRepository"/>.
+    /// </summary>
+    /// <remarks>
+    /// The built-in banks load their words from embedded resources on first use, so
+    /// referencing a bank costs nothing until you generate from it.
+    /// See http://stackoverflow.com/questions/38855909/alternative-to-enum-in-design-pattern
+    /// </remarks>
     public class WordBank
     {
+        /// <summary>The bank's name, e.g. "Nouns".</summary>
         protected readonly string Name;
+
+        /// <summary>The category of word this bank supplies.</summary>
         protected readonly Word Value;
+
+        /// <summary>The backing word source.</summary>
         protected readonly WordRepository Repo;
 
         /// <summary>
@@ -20,7 +36,7 @@ namespace CodenameGenerator
         public static readonly WordBank Adjectives = new WordBank(Word.Adjective, "Adjectives", new AdjectivesRepository());
 
         /// <summary>
-        // A list of first names. All genders.
+        /// A list of first names. All genders.
         /// </summary>
         public static readonly WordBank FirstNames = new WordBank(Word.FirstName, "FirstNames", new FirstNamesRepository());
 
@@ -83,7 +99,7 @@ namespace CodenameGenerator
         public static readonly WordBank Countries = new WordBank(Word.Country, "Countries", new CountriesRepository());
 
         /// <summary>
-        /// An EXPANSIVE list of cities on Earth. Contains ~50K cities.
+        /// An EXPANSIVE list of cities on Earth. Contains ~48K cities.
         /// </summary>
         public static readonly WordBank Cities = new WordBank(Word.City, "Cities", new CitiesRepository());
 
@@ -97,7 +113,24 @@ namespace CodenameGenerator
         /// </summary>
         public static readonly WordBank Verbs = new WordBank(Word.Verb, "Verbs", new VerbsRepository());
 
+        /// <summary>
+        /// Every built-in word bank. Declared last so that all of the static fields
+        /// above are initialized by the time this runs.
+        /// </summary>
+        public static readonly IReadOnlyList<WordBank> All = new ReadOnlyCollection<WordBank>(
+            new[]
+            {
+                Adjectives, Adverbs, Cities, Countries, Days, FemaleFirstNames,
+                FemaleTitles, FirstNames, JobTitles, LastNames, MaleFirstNames,
+                MaleTitles, Months, Nouns, StateNames, Titles, Verbs,
+            });
 
+        /// <summary>
+        /// Creates a word bank.
+        /// </summary>
+        /// <param name="value">The category of word this bank supplies.</param>
+        /// <param name="name">The bank's name.</param>
+        /// <param name="repo">The word source.</param>
         public WordBank(Word value, string name, WordRepository repo)
         {
             Name = name;
@@ -105,21 +138,37 @@ namespace CodenameGenerator
             Repo = repo;
         }
 
+        /// <summary>
+        /// The bank's name.
+        /// </summary>
+        /// <returns>The name, e.g. "Nouns".</returns>
         public override string ToString()
         {
             return Name;
         }
 
-        public static implicit operator Word(WordBank @enum)
+        /// <summary>
+        /// Converts a bank to the <see cref="Word"/> category it supplies.
+        /// </summary>
+        /// <param name="bank">The bank.</param>
+        public static implicit operator Word(WordBank bank)
         {
-            return @enum.Value;
+            return bank.Value;
         }
 
-        public static implicit operator string(WordBank @enum)
+        /// <summary>
+        /// Converts a bank to its name.
+        /// </summary>
+        /// <param name="bank">The bank.</param>
+        public static implicit operator string(WordBank bank)
         {
-            return @enum.Name;
+            return bank.Name;
         }
 
+        /// <summary>
+        /// The words in this bank, loading them on first call.
+        /// </summary>
+        /// <returns>The words. Treat the array as read-only; it is shared.</returns>
         public string[] Get()
         {
             return Repo.Get();
