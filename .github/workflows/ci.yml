@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # Published version is <VERSION_PREFIX>.<run number>, e.g. 2.0.14. Bump the
+  # prefix here for a new minor/major release.
+  VERSION_PREFIX: '2.0'
+
+jobs:
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore CodenameGenerator.sln
+
+      # The library must stay warning-free: GenerateDocumentationFile means a
+      # missing XML comment on a public member is a CS1591 warning.
+      - name: Build (netstandard2.0 + net8.0)
+        run: dotnet build CodenameGenerator.sln -c Release --no-restore -warnaserror
+
+      - name: Test
+        run: >-
+          dotnet test tests/CodenameGenerator.Tests/CodenameGenerator.Tests.csproj
+          -c Release --no-build
+          --logger "console;verbosity=normal"
+          --logger "trx;LogFileName=test-results.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.os }}
+          path: '**/TestResults/*.trx'
+          if-no-files-found: warn
+
+  pack:
+    name: pack
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Compute version
+        id: version
+        run: echo "value=${VERSION_PREFIX}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      # Version comes from the command line; the csproj is never rewritten.
+      # FileVersion has to be passed too: it defaults to AssemblyVersion, which is
+      # deliberately pinned at 2.0.0.0 for binding stability.
+      - name: Pack
+        run: >-
+          dotnet pack src/CodenameGenerator/CodenameGenerator.csproj
+          -c Release
+          -p:Version=${{ steps.version.outputs.value }}
+          -p:FileVersion=${{ steps.version.outputs.value }}.0
+          -o artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nupkg-${{ steps.version.outputs.value }}
+          path: |
+            artifacts/*.nupkg
+            artifacts/*.snupkg
+          if-no-files-found: error
+
+      # Publish only for real pushes to master, and never for a [chore] commit,
+      # matching the convention the old AppVeyor config used.
+      - name: Push to NuGet
+        if: >-
+          github.event_name == 'push'
+          && github.ref == 'refs/heads/master'
+          && !contains(github.event.head_commit.message, '[chore]')
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if [ -z "$NUGET_API_KEY" ]; then
+            echo "::warning::NUGET_API_KEY secret is not set; skipping publish."
+            exit 0
+          fi
+          dotnet nuget push "artifacts/*.nupkg" \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate

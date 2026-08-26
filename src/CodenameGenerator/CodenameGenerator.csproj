@@ -1,6 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!--
+    Version here is the local/default value. CI passes -p:Version=<prefix>.<run>
+    on the command line, so nothing rewrites this file during a build.
+    AssemblyVersion stays pinned to the major release so per-build numbers can't
+    break assembly binding for consumers; CI passes a matching FileVersion, and
+    InformationalVersion carries the full package version either way.
+  -->
   <PropertyGroup>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
@@ -8,10 +18,8 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <Deterministic>true</Deterministic>
-  </PropertyGroup>
 
-  <PropertyGroup>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageId>CodenameGenerator</PackageId>
     <Authors>Colin Smith</Authors>
     <Company />
@@ -23,9 +31,8 @@
     <Description>Codename generator for .NET. Generates random codenames/usernames from bundled word lists.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>2.0.0</Version>
-    <FileVersion>2.0.0.0</FileVersion>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageReleaseNotes>
 + Word lists moved from compiled arrays into embedded resources and loaded lazily: much smaller assembly, and only the banks you use are read into memory.
 + Unseeded generators are now thread-safe.
@@ -35,8 +42,6 @@
 + Added WordBank.All. Fixed the Months word list, which was missing April.
 - Breaking: dropped net452, netstandard1.0 and netstandard1.3. Targets netstandard2.0 (.NET Framework 4.6.1+) and net8.0.
     </PackageReleaseNotes>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

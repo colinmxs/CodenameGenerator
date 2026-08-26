@@ -1,4 +1,4 @@
-# CodenameGenerator [![Build status](https://ci.appveyor.com/api/projects/status/1fu843atedo0a2hn/branch/master?svg=true)](https://ci.appveyor.com/project/colinmxs/codenamegenerator/branch/master)
+# CodenameGenerator [![CI](https://github.com/colinmxs/CodenameGenerator/actions/workflows/ci.yml/badge.svg)](https://github.com/colinmxs/CodenameGenerator/actions/workflows/ci.yml)
 Generates random codenames/usernames/whatever you want!
 
 [NuGet link](https://www.nuget.org/packages/CodenameGenerator)
@@ -104,12 +104,21 @@ current locale.
 ```bash
 dotnet build -c Release
 dotnet test tests/CodenameGenerator.Tests -c Release
+dotnet pack src/CodenameGenerator -c Release -o artifacts
 ```
 Or without a local SDK, using the included Dockerfile:
 ```bash
 docker build --target test .            # run the tests
 docker build --target pack -o out .     # produce the NuGet package
 ```
+
+## Releasing
+GitHub Actions builds and tests every push and pull request on Linux and Windows.
+A push to `master` also packs and publishes to NuGet, versioned
+`<VERSION_PREFIX>.<run number>` from `.github/workflows/ci.yml`; bump
+`VERSION_PREFIX` there for a new minor or major release. Publishing needs a
+`NUGET_API_KEY` repository secret and is skipped when the commit message
+contains `[chore]`.
 
 ## Changes in 2.0.0
 + Word lists moved from compiled string arrays into embedded resources, loaded lazily. Much smaller assembly, and only the banks you use are read into memory.

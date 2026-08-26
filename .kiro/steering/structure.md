@@ -17,7 +17,7 @@ tests/CodenameGenerator.Tests/   # MSTest, net8.0
   GeneratorTests.cs
   WordBankTests.cs
   TestWordBank.cs                # two-word banks + CountingRepository test double
-appveyor.yml                     # CI: build, test, push to NuGet on master
+.github/workflows/ci.yml         # CI: build+test (ubuntu, windows), pack, push to NuGet
 ```
 
 ## Rules

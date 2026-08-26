@@ -216,3 +216,6 @@ __pycache__/
 .DS_Store
 # Container build output (docker build --target pack -o out .)
 out/
+
+# Local pack output (dotnet pack -o artifacts)
+artifacts/

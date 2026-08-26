@@ -5,11 +5,15 @@
 #   docker build --target test .                 # run the unit tests
 #   docker build --target pack -o out .          # emit the .nupkg + .snupkg to ./out
 #
+# Pass --build-arg VERSION=2.0.7 to stamp a specific package version, matching
+# what CI does; the default comes from the csproj.
+#
 # The library multi-targets netstandard2.0 and net8.0; the tests run on net8.0.
 # Both are buildable by the SDK image alone, so no container-only MSBuild
 # overrides are needed.
 
 ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk:8.0
+ARG VERSION=
 
 FROM ${SDK_IMAGE} AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 \
@@ -39,6 +43,13 @@ RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
         --logger "console;verbosity=normal"
 
 # `docker build --target pack -o out .` drops the packages on the host.
+FROM build AS packer
+ARG VERSION
+RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
+    dotnet pack src/CodenameGenerator/CodenameGenerator.csproj \
+        -c Release --no-restore \
+        $(test -n "$VERSION" && echo "-p:Version=$VERSION -p:FileVersion=${VERSION%%-*}.0") \
+        -o /packages
+
 FROM scratch AS pack
-COPY --from=build /src/src/CodenameGenerator/bin/Release/*.nupkg /
-COPY --from=build /src/src/CodenameGenerator/bin/Release/*.snupkg /
+COPY --from=packer /packages/ /
